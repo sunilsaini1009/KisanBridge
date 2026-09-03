@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Business & Institution Registration - KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="buyer-category.html" class="nav-link active">Buyers</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn">🛒<span class="nav-cart-badge">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding-sm">
+    <div class="container-narrow">
+      <div class="form-header">
+        <span class="badge badge-green" style="margin-bottom: 12px;">🏨 B2B Wholesale Supply</span>
+        <h2>Commercial Business & Institutional Registration</h2>
+        <p>Save 25% on commercial kitchen procurement with verified farm direct supply lines and GST invoicing.</p>
+      </div>
+
+      <div class="form-wrapper">
+        <form id="buyer-registration-form">
+          <div class="form-grid">
+            <div class="form-group col-span-2">
+              <label class="form-label" for="businessName">Establishment / Business Name *</label>
+              <input type="text" class="form-control" id="businessName" placeholder="e.g. Grand Royal Hotel & Banquets" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="businessType">Business Type *</label>
+              <select class="form-control" id="businessType">
+                <option value="Hotel/Restaurant">Hotel / Restaurant / Cloud Kitchen</option>
+                <option value="Hostel/Institution">Hostel / School / University Mess</option>
+                <option value="Retailer">Supermarket / Retail Sabzi Shop</option>
+                <option value="Corporate">Corporate Cafeteria</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="buyerName">Procurement Officer / Contact Person *</label>
+              <input type="text" class="form-control" id="buyerName" placeholder="e.g. Vikram Malhotra" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="buyerPhone">Mobile Number *</label>
+              <input type="tel" class="form-control" id="buyerPhone" placeholder="10-digit number" maxlength="10" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="gstin">GSTIN / FSSAI License No.</label>
+              <input type="text" class="form-control" id="gstin" placeholder="e.g. 06AAAAA0000A1Z5">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="estimatedDailyRequirement">Daily Consumption Volume</label>
+              <select class="form-control" id="estimatedDailyRequirement">
+                <option value="50-100kg">50 - 100 kg / day</option>
+                <option value="100-500kg" selected>100 - 500 kg / day</option>
+                <option value="500kg+">500+ kg / day (Truckload Dispatch)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="deliverySlot">Preferred Delivery Time</label>
+              <select class="form-control" id="deliverySlot">
+                <option value="5AM-7AM">Early Morning (5:00 AM - 7:00 AM)</option>
+                <option value="7AM-10AM">Morning Slot (7:00 AM - 10:00 AM)</option>
+                <option value="3PM-6PM">Evening Slot (3:00 PM - 6:00 PM)</option>
+              </select>
+            </div>
+
+            <div class="form-group col-span-2">
+              <label class="form-label" for="buyerAddress">Kitchen / Warehouse Delivery Address *</label>
+              <input type="text" class="form-control" id="buyerAddress" placeholder="Commercial address with unloading dock details" required>
+            </div>
+          </div>
+
+          <div style="margin-top: 32px;">
+            <button type="submit" class="btn btn-green btn-full btn-lg">
+              Register Commercial Account & Unlock B2B Rates →
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge B2B Services</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/buyer-form.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      BuyerFormController.init('Business/B2B');
+    });
+  </script>
+</body>
+</html>
