@@ -2,11 +2,57 @@
    KISANBRIDGE - HOMEPAGE FEATURE CARDS & PREVIEW GRID STYLES
    ========================================================================== */
 
-/* --- Feature Preview Section --- */
 .home-features-section {
-  padding: 64px 0 72px 0;
+  padding: 24px 0 72px 0;
   background-color: var(--bg-cream);
   position: relative;
+  overflow: hidden;
+}
+
+/* Subtle agricultural organic ambience flowing from the landscape above */
+.home-features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.035) 0%, rgba(250, 248, 242, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-features-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative Botanical Leaf Illustrations (Exact Match to User Reference Images) */
+.leaf-decor {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: 0.35; /* Soft, clearly visible botanical lines matching Image 1 */
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.leaf-decor-left {
+  top: -30px;
+  left: 0;
+  width: 320px;
+  max-width: 25vw;
+  height: auto;
+}
+
+.leaf-decor-right {
+  top: -30px;
+  right: 0;
+  width: 320px;
+  max-width: 25vw;
+  height: auto;
+  transform: scaleX(-1);
 }
 
 .home-section-header {
@@ -78,6 +124,423 @@
   border-color: rgba(102, 126, 234, 0.22);
 }
 
+/* Card 1: Mandi Benchmark Card with Aerial Market Background Image */
+/* Card 1: Mandi Benchmark Card with Aerial Market Background (Matching Reference Example) */
+.feature-preview-card.card-mandi-bg {
+  position: relative;
+  background-color: #0D2818;
+  overflow: hidden;
+  border: 1.5px solid rgba(74, 222, 128, 0.28);
+  box-shadow: 0 8px 30px rgba(10, 35, 20, 0.20);
+}
+
+/* Photographic background layer with rich dark agricultural overlay (matching Image 1 example) */
+.feature-preview-card.card-mandi-bg {
+  position: relative; /* Essential so the ::before pseudo-element stays inside the card */
+  overflow: hidden;   /* Keeps the background from spilling out when scaled/hovered */
+}
+
+.feature-preview-card.card-mandi-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(
+      180deg,
+
+    rgba(0, 0, 0, 0.60) 0%,
+    rgba(0, 0, 0, 0.45) 25%,
+    rgba(0, 0, 0, 0.22) 50%,
+    rgba(0, 0, 0, 0.06) 65%,
+    rgba(0, 0, 0, 0) 75%     /* Dark at the bottom for text contrast */
+    ),
+    url('../assets/images/mandi-card-bg.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  z-index: -1;                     /* Pushed behind the text so text never disappears */
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.feature-preview-card.card-mandi-bg:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(74, 222, 128, 0.2);
+  border-color: #4ADE80;
+}
+
+.feature-preview-card.card-mandi-bg:hover::before {
+  transform: scale(1.05);
+}
+
+.feature-preview-card.card-mandi-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Badge */
+.feature-preview-card.card-mandi-bg .card-header-badge {
+  background: rgba(34, 197, 94, 0.20);
+  color: #4ADE80;
+  border: 1px solid rgba(74, 222, 128, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Heading & Subtitle */
+.feature-preview-card.card-mandi-bg .card-main-heading {
+  color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+
+.feature-preview-card.card-mandi-bg .card-short-desc {
+  color: #E2E8F0;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Inner Compact Preview List - Modern Frosted Dark Glass */
+.feature-preview-card.card-mandi-bg .preview-items-list {
+  background: rgba(8, 28, 16, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.feature-preview-card.card-mandi-bg .preview-item-row {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+}
+
+.feature-preview-card.card-mandi-bg .preview-item-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.feature-preview-card.card-mandi-bg .preview-item-value {
+  color: #4ADE80;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Tracked Hubs Text */
+.feature-preview-card.card-mandi-bg .preview-locations-strip {
+  color: #CBD5E1;
+  font-size: 0.80rem;
+  line-height: 1.45;
+  padding: 20px 15px;
+  border-radius: 8px;
+  
+  /* Flex layout to keep the label and list neatly inline/wrapped */
+  display: flex;
+  flex-direction: column; /* Change to 'row' if you want it all on one line */
+  gap: 4px;
+}
+
+.feature-preview-card.card-mandi-bg .preview-locations-strip strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* Styles for the new hub list structure */
+.feature-preview-card.card-mandi-bg .preview-locations-strip .hubs-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 6px;
+}
+
+.feature-preview-card.card-mandi-bg .preview-locations-strip .hubs-list li {
+  display: inline;
+}
+
+.feature-preview-card.card-mandi-bg .preview-locations-strip .hubs-list li:not(:last-child):after {
+  content: "•";
+  margin-left: 6px;
+  color: #CBD5E1;
+  opacity: 0.7;
+}
+
+/* Action Button */
+.feature-preview-card.card-mandi-bg .card-action-btn.btn-card-green {
+  background: #1E7B44;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.feature-preview-card.card-mandi-bg:hover .card-action-btn.btn-card-green {
+  background: #259955;
+  box-shadow: 0 6px 20px rgba(37, 153, 85, 0.4);
+}
+
+/* Card 2: Government Schemes Card with Farmer Photographic Background */
+.feature-preview-card.card-schemes-bg {
+  position: relative;
+  background-color: #0F172A;
+  overflow: hidden;
+  border: 1.5px solid rgba(165, 180, 252, 0.30);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.22);
+}
+
+/* Photographic background layer with rich indigo/navy shading overlay */
+.feature-preview-card.card-schemes-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(
+      180deg,
+
+    rgba(0, 0, 0, 0.60) 0%,
+    rgba(0, 0, 0, 0.45) 25%,
+    rgba(0, 0, 0, 0.22) 50%,
+    rgba(0, 0, 0, 0.06) 65%,
+    rgba(0, 0, 0, 0) 75% 
+    ),
+    url('../assets/images/schemes-card-bg.jpg');
+  background-size: cover;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.feature-preview-card.card-schemes-bg:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(129, 140, 248, 0.25);
+  border-color: #818CF8;
+}
+
+.feature-preview-card.card-schemes-bg:hover::before {
+  transform: scale(1.05);
+}
+
+.feature-preview-card.card-schemes-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Badge */
+.feature-preview-card.card-schemes-bg .card-header-badge {
+  background: rgba(99, 102, 241, 0.22);
+  color: #A5B4FC;
+  border: 1px solid rgba(165, 180, 252, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Heading & Subtitle */
+.feature-preview-card.card-schemes-bg .card-main-heading {
+  color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+
+.feature-preview-card.card-schemes-bg .card-short-desc {
+  color: #E2E8F0;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Inner Compact Preview List - Modern Frosted Dark Glass */
+.feature-preview-card.card-schemes-bg .preview-items-list {
+  /* background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(165, 180, 252, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); */
+}
+
+.feature-preview-card.card-schemes-bg .preview-item-row {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+}
+
+.feature-preview-card.card-schemes-bg .preview-item-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.feature-preview-card.card-schemes-bg .preview-item-value {
+  color: #A5B4FC !important;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Focus Strip */
+.feature-preview-card.card-schemes-bg .preview-locations-strip {
+  /* color: #CBD5E1;
+  font-size: 0.80rem;
+  line-height: 1.45;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background: rgba(15, 23, 42, 0.60);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.10); */
+}
+
+.feature-preview-card.card-schemes-bg .preview-locations-strip strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Action Button */
+.feature-preview-card.card-schemes-bg .card-action-btn.btn-card-purple {
+  background: #1E7B44;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.feature-preview-card.card-schemes-bg:hover .card-action-btn.btn-card-purple {
+  background: #6366F1;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+/* Card 3: Crop Advisory Card with Farmer in Field Photographic Background */
+.feature-preview-card.card-advisory-bg {
+  position: relative;
+  background-color: #0A2214;
+  overflow: hidden;
+  border: 1.5px solid rgba(74, 222, 128, 0.28);
+  box-shadow: 0 8px 30px rgba(10, 35, 20, 0.22);
+}
+
+/* Photographic background layer with rich golden-hour agricultural green shading overlay */
+.feature-preview-card.card-advisory-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(
+      180deg,
+     
+    rgba(0, 0, 0, 0.60) 0%,
+    rgba(0, 0, 0, 0.45) 25%,
+    rgba(0, 0, 0, 0.22) 50%,
+    rgba(0, 0, 0, 0.06) 65%,
+    rgba(0, 0, 0, 0) 75% 
+    ),
+    url('../assets/images/crop-advisory-bg.jpg');
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.feature-preview-card.card-advisory-bg:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(74, 222, 128, 0.2);
+  border-color: #4ADE80;
+}
+
+.feature-preview-card.card-advisory-bg:hover::before {
+  transform: scale(1.05);
+}
+
+.feature-preview-card.card-advisory-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Badge */
+.feature-preview-card.card-advisory-bg .card-header-badge {
+  background: rgba(34, 197, 94, 0.20);
+  color: #4ADE80;
+  border: 1px solid rgba(74, 222, 128, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Heading & Subtitle */
+.feature-preview-card.card-advisory-bg .card-main-heading {
+  color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+
+.feature-preview-card.card-advisory-bg .card-short-desc {
+  color: #E2E8F0;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Inner Compact Preview List - Modern Frosted Dark Glass */
+.feature-preview-card.card-advisory-bg .preview-items-list {
+  background: rgba(8, 28, 16, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.feature-preview-card.card-advisory-bg .preview-item-row {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+}
+
+.feature-preview-card.card-advisory-bg .preview-item-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Make demand tags pop cleanly on dark background */
+.feature-preview-card.card-advisory-bg .preview-item-value {
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.feature-preview-card.card-advisory-bg .preview-item-value[style*="#EA580C"] {
+  color: #FB923C !important; /* Vibrant amber/orange on dark */
+}
+
+.feature-preview-card.card-advisory-bg .preview-item-value[style*="#2563EB"] {
+  color: #60A5FA !important; /* Vibrant sky blue on dark */
+}
+
+/* Agronomic Advisory Focus Strip */
+.feature-preview-card.card-advisory-bg .preview-locations-strip {
+  color: #CBD5E1;
+  font-size: 0.80rem;
+  line-height: 1.45;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background: rgba(6, 22, 13, 0.60);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.feature-preview-card.card-advisory-bg .preview-locations-strip strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* Action Button */
+.feature-preview-card.card-advisory-bg .card-action-btn.btn-card-green {
+  background: #1E7B44;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.feature-preview-card.card-advisory-bg:hover .card-action-btn.btn-card-green {
+  background: #259955;
+  box-shadow: 0 6px 20px rgba(37, 153, 85, 0.4);
+}
+
 /* Hover Lift & Glow Animations */
 .feature-preview-card:hover {
   transform: translateY(-6px);
@@ -134,14 +597,14 @@
 
 /* Inner Compact Preview List */
 .preview-items-list {
-  background: var(--bg-subtle);
+  /* background: var(--bg-subtle);
   border-radius: 14px;
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-light); */
 }
 
 .preview-item-row {
@@ -179,7 +642,7 @@
 /* Location / Extra Note inside preview */
 .preview-locations-strip {
   font-size: 0.78rem;
-  color: var(--text-light);
+ color : #ffffff;
   line-height: 1.45;
   margin-bottom: 20px;
   padding: 0 4px;
@@ -414,11 +877,35 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
+
+  .leaf-decor-left {
+    width: 240px;
+    top: -20px;
+    opacity: 0.28;
+  }
+
+  .leaf-decor-right {
+    width: 240px;
+    top: -20px;
+    opacity: 0.28;
+  }
 }
 
 @media (max-width: 768px) {
   .home-features-section {
-    padding: 44px 0 54px 0;
+    padding: 28px 0 54px 0;
+  }
+
+  .leaf-decor-left {
+    width: 170px;
+    top: -15px;
+    opacity: 0.22;
+  }
+
+  .leaf-decor-right {
+    width: 170px;
+    top: -15px;
+    opacity: 0.22;
   }
 
   .feature-cards-grid {
@@ -437,5 +924,19 @@
 
   .feature-preview-card {
     padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaf-decor-left {
+    width: 120px;
+    top: -10px;
+    opacity: 0.18;
+  }
+
+  .leaf-decor-right {
+    width: 120px;
+    top: -10px;
+    opacity: 0.18;
   }
 }
