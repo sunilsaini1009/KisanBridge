@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Registration (किसान पंजीकरण) - KisanBridge</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="farmer-register.html" class="nav-link active">Farmers</a></li>
+        <li><a href="buyer-category.html" class="nav-link">Buyers</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart">
+          🛒
+          <span class="nav-cart-badge">0</span>
+        </a>
+        <a href="farmer-dashboard.html" class="btn btn-outline-green btn-sm">Farmer Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding-sm">
+    <div class="container-narrow">
+
+      <!-- Registration Container Header -->
+      <div class="form-header">
+        <span class="badge badge-green" style="margin-bottom: 12px;">👨🌾 Direct Farmer Onboarding</span>
+        <h2>किसान पंजीकरण (Farmer Registration)</h2>
+        <p>Register in 4 simple steps. You can use voice commands in Hindi or English by clicking the 🎤 icon.</p>
+        
+        <div style="margin-top: 14px;">
+          <button type="button" id="voice-help-btn" class="btn btn-outline-green btn-sm">
+            🔊 "Madad" (Voice Help / आवाज़ से मदद)
+          </button>
+        </div>
+      </div>
+
+      <!-- Step Wizard Progress Indicator -->
+      <div class="step-wizard">
+        <div class="step-wizard-progress" id="wizard-progress-bar" style="width: 0%;"></div>
+        
+        <!-- Step 1 -->
+        <div class="wizard-step active" id="wizard-step-1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Basic Details</span>
+        </div>
+        <!-- Step 2 -->
+        <div class="wizard-step" id="wizard-step-2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Farm Details</span>
+        </div>
+        <!-- Step 3 -->
+        <div class="wizard-step" id="wizard-step-3">
+          <div class="step-circle">3</div>
+          <span class="step-label">KYC & Bank</span>
+        </div>
+        <!-- Step 4 -->
+        <div class="wizard-step" id="wizard-step-4">
+          <div class="step-circle">4</div>
+          <span class="step-label">FPO Group</span>
+        </div>
+      </div>
+
+      <!-- Form Card Wrapper -->
+      <div class="form-wrapper">
+        <form id="farmer-registration-form" novalidate>
+
+          <!-- STEP 1: Basic Details -->
+          <div class="form-step-pane active" id="step-pane-1">
+            <h3 style="margin-bottom: 20px; color: var(--primary-green-dark);">1. Basic Details (प्राथमिक विवरण)</h3>
+            
+            <div class="form-grid">
+              <!-- Preferred Language -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="preferredLanguage">Preferred Language (पसंदीदा भाषा)</label>
+                <select class="form-control" id="preferredLanguage">
+                  <option value="Hindi" selected>Hindi (हिन्दी)</option>
+                  <option value="English">English</option>
+                  <option value="Marathi">Marathi (मराठी)</option>
+                  <option value="Tamil">Tamil (தமிழ்)</option>
+                  <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+                </select>
+              </div>
+
+              <!-- Full Name -->
+              <div class="form-group">
+                <label class="form-label" for="farmerFullName">
+                  Full Name (पूरा नाम) *
+                </label>
+                <div class="input-with-voice">
+                  <input type="text" class="form-control" id="farmerFullName" placeholder="e.g. Ram Singh" required>
+                  <button type="button" class="btn-voice" data-target="farmerFullName" title="Speak name in Hindi/English">🎤</button>
+                </div>
+                <span class="invalid-feedback">Please enter your full name.</span>
+              </div>
+
+              <!-- Father's Name -->
+              <div class="form-group">
+                <label class="form-label" for="farmerFatherName">
+                  Father's / Husband's Name (पिता/पति का नाम) *
+                </label>
+                <div class="input-with-voice">
+                  <input type="text" class="form-control" id="farmerFatherName" placeholder="e.g. Harish Chandra" required>
+                  <button type="button" class="btn-voice" data-target="farmerFatherName" title="Speak Father's name">🎤</button>
+                </div>
+                <span class="invalid-feedback">Please enter father's name.</span>
+              </div>
+
+              <!-- Mobile Number -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="farmerMobile">
+                  Mobile Number (मोबाइल नंबर - 10 अंक) *
+                </label>
+                <div class="input-with-voice">
+                  <input type="tel" class="form-control" id="farmerMobile" placeholder="e.g. 9876543210" maxlength="10" required>
+                  <button type="button" class="btn-voice" data-target="farmerMobile" title="Speak mobile number">🎤</button>
+                </div>
+                <span class="form-hint">Aadhaar and OTP notifications will be sent to this number.</span>
+                <span class="invalid-feedback">Please enter a valid 10-digit mobile number.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: Farm Details -->
+          <div class="form-step-pane" id="step-pane-2">
+            <h3 style="margin-bottom: 20px; color: var(--primary-green-dark);">2. Farm & Land Details (खेत और भूमि विवरण)</h3>
+
+            <div class="form-grid">
+              <!-- State -->
+              <div class="form-group">
+                <label class="form-label" for="farmerState">State (राज्य) *</label>
+                <select class="form-control" id="farmerState" required>
+                  <option value="">-- Select State --</option>
+                  <option value="Haryana" selected>Haryana</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Gujarat">Gujarat</option>
+                </select>
+                <span class="invalid-feedback">Please select your state.</span>
+              </div>
+
+              <!-- District -->
+              <div class="form-group">
+                <label class="form-label" for="farmerDistrict">District (ज़िला) *</label>
+                <div class="input-with-voice">
+                  <input type="text" class="form-control" id="farmerDistrict" placeholder="e.g. Gurugram" required>
+                  <button type="button" class="btn-voice" data-target="farmerDistrict">🎤</button>
+                </div>
+                <span class="invalid-feedback">Please enter your district.</span>
+              </div>
+
+              <!-- Village -->
+              <div class="form-group">
+                <label class="form-label" for="farmerVillage">Village / Town (गाँव / कस्बा) *</label>
+                <div class="input-with-voice">
+                  <input type="text" class="form-control" id="farmerVillage" placeholder="e.g. Dhanwapur" required>
+                  <button type="button" class="btn-voice" data-target="farmerVillage">🎤</button>
+                </div>
+                <span class="invalid-feedback">Please enter your village.</span>
+              </div>
+
+              <!-- Pincode -->
+              <div class="form-group">
+                <label class="form-label" for="farmerPincode">Pincode (पिनकोड) *</label>
+                <input type="text" class="form-control" id="farmerPincode" placeholder="e.g. 122001" maxlength="6" required>
+                <span class="invalid-feedback">Please enter 6-digit postal pincode.</span>
+              </div>
+
+              <!-- Farm Size -->
+              <div class="form-group">
+                <label class="form-label" for="farmSizeAcres">Farm Size in Acres (कुल ज़मीन - एकड़ में) *</label>
+                <input type="number" step="0.5" class="form-control" id="farmSizeAcres" placeholder="e.g. 4.5" required>
+                <span class="invalid-feedback">Please specify farm size.</span>
+              </div>
+
+              <!-- Main Crops (Multi-Select) -->
+              <div class="form-group col-span-2">
+                <label class="form-label">Main Crops Cultivated (मुख्य फसलें)</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px;">
+                  <label><input type="checkbox" name="crops" value="Tomato" checked> 🍅 Tomato</label>
+                  <label><input type="checkbox" name="crops" value="Potato" checked> 🥔 Potato</label>
+                  <label><input type="checkbox" name="crops" value="Onion"> 🧅 Onion</label>
+                  <label><input type="checkbox" name="crops" value="Cabbage" checked> 🥦 Cabbage</label>
+                  <label><input type="checkbox" name="crops" value="Cucumber"> 🥒 Cucumber</label>
+                  <label><input type="checkbox" name="crops" value="Fruits"> 🍎 Fruits</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: KYC & Bank -->
+          <div class="form-step-pane" id="step-pane-3">
+            <h3 style="margin-bottom: 20px; color: var(--primary-green-dark);">3. KYC & Direct Bank Account (बैंक और सत्यापन)</h3>
+
+            <div class="form-grid">
+              <!-- Aadhaar Number -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="farmerAadhaar">Aadhaar Number (आधार कार्ड नंबर) *</label>
+                <input type="text" class="form-control" id="farmerAadhaar" placeholder="12-digit Aadhaar Number" maxlength="12" required>
+                <span class="form-hint">Used securely for PM-Kisan subsidy linkage & identity verification.</span>
+                <span class="invalid-feedback">Please enter valid 12-digit Aadhaar number.</span>
+              </div>
+
+              <!-- Bank Account Number -->
+              <div class="form-group">
+                <label class="form-label" for="bankAccount">Bank Account Number (बैंक खाता संख्या) *</label>
+                <input type="text" class="form-control" id="bankAccount" placeholder="e.g. 30894561234" required>
+                <span class="invalid-feedback">Please enter bank account number.</span>
+              </div>
+
+              <!-- IFSC Code -->
+              <div class="form-group">
+                <label class="form-label" for="bankIfsc">IFSC Code (बैंक IFSC कोड) *</label>
+                <input type="text" class="form-control" id="bankIfsc" placeholder="e.g. SBIN0001234" required>
+                <span class="invalid-feedback">Please enter valid IFSC code.</span>
+              </div>
+
+              <!-- Aadhaar Photo Upload Dropzone -->
+              <div class="form-group">
+                <label class="form-label">Upload Aadhaar Photo</label>
+                <div class="upload-dropzone" id="aadhaar-dropzone">
+                  <input type="file" id="aadhaar-file" accept="image/*" style="display: none;">
+                  <div class="upload-icon">📄</div>
+                  <div class="upload-text">Click or Drag Aadhaar Card</div>
+                  <div class="upload-subtext">JPG, PNG or PDF (Max 5MB)</div>
+                  <div class="file-preview" id="aadhaar-preview"></div>
+                </div>
+              </div>
+
+              <!-- Passbook Photo Upload Dropzone -->
+              <div class="form-group">
+                <label class="form-label">Upload Bank Passbook / Cheque</label>
+                <div class="upload-dropzone" id="passbook-dropzone">
+                  <input type="file" id="passbook-file" accept="image/*" style="display: none;">
+                  <div class="upload-icon">🏦</div>
+                  <div class="upload-text">Click or Drag Passbook Front Page</div>
+                  <div class="upload-subtext">For instant direct DBT payments</div>
+                  <div class="file-preview" id="passbook-preview"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: FPO Group Details -->
+          <div class="form-step-pane" id="step-pane-4">
+            <h3 style="margin-bottom: 20px; color: var(--primary-green-dark);">4. FPO Group Details (किसान उत्पादक संगठन)</h3>
+
+            <div class="form-grid">
+              <div class="form-group col-span-2">
+                <label class="form-label">Are you a member of any FPO / Farmer Group? (क्या आप किसी FPO के सदस्य हैं?)</label>
+                
+                <div class="radio-cards-group" style="margin-top: 8px;">
+                  <label class="radio-card-label">
+                    <input type="radio" name="fpoMember" id="fpo-yes" value="yes" class="radio-card-input">
+                    <span>Yes, I belong to an FPO (हाँ)</span>
+                  </label>
+                  <label class="radio-card-label">
+                    <input type="radio" name="fpoMember" id="fpo-no" value="no" class="radio-card-input" checked>
+                    <span>No, Individual Farmer (नहीं, स्वतंत्र किसान)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Conditional FPO Details -->
+              <div id="fpo-details-container" class="form-grid col-span-2" style="display: none; background: var(--bg-slate); padding: 20px; border-radius: var(--radius-md);">
+                <div class="form-group">
+                  <label class="form-label" for="fpoName">FPO Name (संगठन का नाम)</label>
+                  <input type="text" class="form-control" id="fpoName" placeholder="e.g. Kisan Samriddhi Producer Co. Ltd.">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="fpoId">FPO Registration ID</label>
+                  <input type="text" class="form-control" id="fpoId" placeholder="e.g. FPO-HR-2024-89">
+                </div>
+              </div>
+
+              <div class="form-group col-span-2" style="margin-top: 10px;">
+                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.95rem;">
+                  <input type="checkbox" id="termsAgreement" required checked style="margin-top: 4px; width: 18px; height: 18px; accent-color: var(--primary-green);">
+                  <span>I agree to sell harvested produce directly without middlemen, maintain quality standards, and receive payments via KisanBridge DBT Escrow.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard Navigation Bottom Bar -->
+          <div class="form-navigation">
+            <button type="button" class="btn btn-outline-green" id="btn-wizard-prev" style="visibility: hidden;">
+              ← Previous Step
+            </button>
+            <button type="button" class="btn btn-green" id="btn-wizard-next">
+              Next Step →
+            </button>
+            <button type="submit" class="btn btn-green" id="btn-wizard-submit" style="display: none;">
+              ✓ Complete Registration & Open Dashboard
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge • Kisan Empowerment Initiative. Toll-Free: 1800-180-1551</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/voice-assistant.js"></script>
+  <script src="js/farmer-form.js"></script>
+</body>
+</html>
