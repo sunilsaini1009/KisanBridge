@@ -364,69 +364,395 @@ function showToast(message, type = 'info', duration = 3000) {
   }, duration);
 }
 
-// --- Update Cart Badge Counter (Both Top Bar & Bottom Mobile Nav) ---
+// ==========================================================================
+// KISANBRIDGE - REUSABLE DYNAMIC NAVBAR & LANGUAGE SELECTOR SYSTEM
+// ==========================================================================
+
+// 1. getCurrentUser()
+function getCurrentUser() {
+  try {
+    const userStr = localStorage.getItem("currentUser");
+    if (!userStr) return null;
+    const user = JSON.parse(userStr);
+    if (user && (user.role === "farmer" || user.role === "buyer")) {
+      return user;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Farmer Gate: Access Protection for Farmer-only pages
+function requireFarmerAccess() {
+  const user = getCurrentUser();
+
+  if (!user || user.role !== "farmer" || user.registered !== true) {
+    const currentPage = (typeof window !== "undefined" && window.location && window.location.pathname)
+      ? (window.location.pathname.split("/").pop() || "farmer-dashboard.html")
+      : "farmer-dashboard.html";
+    try {
+      localStorage.setItem("redirectAfterFarmerRegistration", currentPage);
+    } catch (e) {}
+
+    if (typeof document !== "undefined" && document.documentElement) {
+      document.documentElement.style.display = "none";
+    }
+    if (typeof window !== "undefined" && window.location) {
+      window.location.href = "farmer-register.html";
+    }
+    return false;
+  }
+
+  return true;
+}
+
+// Redirect already registered farmer away from registration page
+function redirectRegisteredFarmerFromRegistration() {
+  const user = getCurrentUser();
+  if (user && user.role === "farmer" && user.registered === true) {
+    if (typeof document !== "undefined" && document.documentElement) {
+      document.documentElement.style.display = "none";
+    }
+    if (typeof window !== "undefined" && window.location) {
+      window.location.href = "farmer-dashboard.html";
+    }
+    return true;
+  }
+  return false;
+}
+
+// Reusable farmer registration saver
+function saveFarmerRegistration(data) {
+  if (!data || !data.name || !data.phone) return false;
+
+  const currentUserData = {
+    name: data.name,
+    role: "farmer",
+    registered: true,
+    phone: data.phone,
+    village: data.village,
+    district: data.district,
+    state: data.state,
+    primaryCrop: data.primaryCrop,
+    farmSize: data.farmSize
+  };
+  if (data.email) currentUserData.email = data.email;
+  Object.keys(currentUserData).forEach(key => {
+    if (currentUserData[key] === undefined) delete currentUserData[key];
+  });
+  localStorage.setItem("currentUser", JSON.stringify(currentUserData));
+
+  const farmerProfileData = {
+    name: data.name,
+    phone: data.phone,
+    village: data.village,
+    district: data.district,
+    state: data.state,
+    primaryCrop: data.primaryCrop,
+    farmSize: data.farmSize,
+    registeredAt: new Date().toISOString()
+  };
+  if (data.email) farmerProfileData.email = data.email;
+  Object.keys(farmerProfileData).forEach(key => {
+    if (farmerProfileData[key] === undefined) delete farmerProfileData[key];
+  });
+  localStorage.setItem("farmerProfile", JSON.stringify(farmerProfileData));
+
+  if (data.selectedLanguage) {
+    localStorage.setItem("selectedLanguage", data.selectedLanguage);
+  }
+
+  return true;
+}
+
+// 2. getSelectedLanguage()
+function getSelectedLanguage() {
+  const lang = localStorage.getItem("selectedLanguage");
+  const validCodes = ["en", "hi", "pa", "mr", "ta"];
+  return validCodes.includes(lang) ? lang : "en";
+}
+
+// 3. setSelectedLanguage(languageCode)
+function setSelectedLanguage(languageCode) {
+  const validCodes = ["en", "hi", "pa", "mr", "ta"];
+  if (!validCodes.includes(languageCode)) return;
+  localStorage.setItem("selectedLanguage", languageCode);
+
+  // Update all language select elements on the page (desktop & mobile)
+  document.querySelectorAll(".language-select").forEach(select => {
+    select.value = languageCode;
+  });
+
+  // Show small non-blocking toast
+  showLanguageToast("Language preference saved");
+}
+
+// Non-blocking language toast
+function showLanguageToast(msg) {
+  let toast = document.getElementById("kisan-language-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "kisan-language-toast";
+    toast.className = "kisan-lang-toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+
+// 4. renderLanguageSelector(selectId)
+function renderLanguageSelector(selectId = "languageSelect") {
+  const currentLang = getSelectedLanguage();
+  return `
+    <div class="language-selector">
+      <span class="language-icon" aria-hidden="true">🌐</span>
+      <select id="${selectId}" class="language-select" aria-label="Select language">
+        <option value="en" ${currentLang === "en" ? "selected" : ""}>English</option>
+        <option value="hi" ${currentLang === "hi" ? "selected" : ""}>हिंदी</option>
+        <option value="pa" ${currentLang === "pa" ? "selected" : ""}>ਪੰਜਾਬੀ</option>
+        <option value="mr" ${currentLang === "mr" ? "selected" : ""}>मराठी</option>
+        <option value="ta" ${currentLang === "ta" ? "selected" : ""}>தமிழ்</option>
+      </select>
+    </div>
+  `;
+}
+
+// 5. initializeLanguageSelector()
+function initializeLanguageSelector() {
+  document.querySelectorAll(".language-select").forEach(select => {
+    if (select._hasChangeListener) return;
+    select._hasChangeListener = true;
+    select.addEventListener("change", function() {
+      setSelectedLanguage(this.value);
+    });
+  });
+}
+
+// 6. renderNavbar()
+function renderNavbar() {
+  const navbarContainer = document.querySelector(".navbar-container") || document.getElementById("navbarContainer");
+  if (!navbarContainer) return;
+
+  const user = getCurrentUser();
+  const role = user ? user.role : "visitor";
+
+  let desktopNavHtml = "";
+  let mobileDrawerHtml = "";
+
+  // 1. Center Links: Always present (Home, Marketplace, Farmer, Buyer)
+  const centerNavHtml = `
+    <nav class="nav-center-wrapper desktop-nav" aria-label="Primary Navigation">
+      <ul class="nav-menu nav-links nav-center-links">
+        <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+        <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+        <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+      </ul>
+    </nav>
+  `;
+
+  // 2. Right Group: Contact + Language Selector (Profile and Cart removed as requested)
+  desktopNavHtml = `
+    ${centerNavHtml}
+    <div class="navbar-right-group desktop-nav">
+      <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+      ${renderLanguageSelector("languageSelect")}
+    </div>
+  `;
+
+  // 3. Mobile Drawer Links
+  mobileDrawerHtml = `
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+      <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+      <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+      <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+      <li><a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a></li>
+    </ul>
+    <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light, #E5E7EB);">
+      ${renderLanguageSelector("mobileLanguageSelect")}
+    </div>
+  `;
+
+  // Render inside navbar container
+  navbarContainer.innerHTML = `
+    <a href="index.html" class="nav-logo" aria-label="KisanBridge Home">
+      <span class="logo-icon">🌾</span>
+      <span>Kisan<span class="accent">Bridge</span></span>
+    </a>
+    ${desktopNavHtml}
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  `;
+
+  // Render or update mobile drawer
+  let mobileDrawer = document.getElementById("mobile-nav-drawer");
+  if (!mobileDrawer) {
+    mobileDrawer = document.createElement("div");
+    mobileDrawer.id = "mobile-nav-drawer";
+    mobileDrawer.className = "mobile-nav-drawer";
+    const header = document.querySelector(".site-header");
+    if (header) {
+      header.after(mobileDrawer);
+    } else {
+      navbarContainer.after(mobileDrawer);
+    }
+  }
+  mobileDrawer.innerHTML = mobileDrawerHtml;
+}
+
+// 7. updateCartCount()
 function updateCartCount() {
-  const cart = LocalStorageManager.load('kisan_cart', []);
-  const totalCount = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
-  
-  const badges = document.querySelectorAll('.nav-cart-badge, .mobile-cart-badge');
+  const cart = LocalStorageManager.load("kisan_cart", []);
+  const totalCount = Array.isArray(cart) ? cart.reduce((acc, item) => acc + (Number(item.quantity) || 1), 0) : 0;
+
+  const badges = document.querySelectorAll(".nav-cart-badge, .cart-count, .mobile-cart-badge");
   badges.forEach(badge => {
     badge.textContent = totalCount;
     if (totalCount > 0) {
-      badge.style.display = 'flex';
-      badge.classList.add('bump');
-      setTimeout(() => badge.classList.remove('bump'), 300);
+      badge.style.display = "flex";
+      badge.classList.add("bump");
+      setTimeout(() => badge.classList.remove("bump"), 300);
     } else {
-      badge.textContent = '0';
+      badge.textContent = "0";
+    }
+  });
+}
+
+// 8. setActiveNavLink()
+function setActiveNavLink() {
+  const currentPath = window.location.pathname.split("/").pop() || "index.html";
+  const currentHash = window.location.hash;
+
+  // Clear active on all nav links
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.classList.remove("active");
+  });
+
+  const isFarmer = getCurrentUser()?.role === "farmer";
+  const isBuyer = getCurrentUser()?.role === "buyer";
+
+  document.querySelectorAll(".nav-link").forEach(link => {
+    const navType = link.getAttribute("data-nav");
+
+    if (currentPath === "index.html" || currentPath === "") {
+      if (currentHash === "#contact") {
+        if (navType === "contact") link.classList.add("active");
+      } else {
+        if (navType === "home") link.classList.add("active");
+      }
+    } else if (currentPath === "marketplace.html" || currentPath === "product-detail.html") {
+      if (navType === "marketplace") link.classList.add("active");
+    } else if (currentPath === "farmer-register.html") {
+      if (navType === "farmer") link.classList.add("active");
+    } else if (currentPath.includes("buyer-") || currentPath === "buyer-category.html") {
+      if (navType === "buyer") link.classList.add("active");
+    } else if (currentPath === "farmer-dashboard.html") {
+      if (navType === "profile" && isFarmer) link.classList.add("active");
+    } else if (currentPath === "customer-dashboard.html") {
+      if (currentHash === "#orders") {
+        if (navType === "my-orders") link.classList.add("active");
+      } else {
+        if (navType === "profile" && isBuyer) link.classList.add("active");
+      }
+    } else if (currentPath === "cart.html" || currentPath === "checkout.html") {
+      if (navType === "cart") link.classList.add("active");
     }
   });
 }
 
 // --- Mobile Bottom Navigation Auto-Injector ---
 function initMobileNavigation() {
-  let bottomNav = document.querySelector('.mobile-bottom-nav');
+  const user = getCurrentUser();
+  // Bottom navigation only if needed
+  let bottomNav = document.querySelector(".mobile-bottom-nav");
   if (!bottomNav) {
-    bottomNav = document.createElement('nav');
-    bottomNav.className = 'mobile-bottom-nav';
+    bottomNav = document.createElement("nav");
+    bottomNav.className = "mobile-bottom-nav";
     
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
     
-    bottomNav.innerHTML = `
-      <a href="index.html" class="mobile-bottom-nav-item ${currentPath === 'index.html' || currentPath === '' ? 'active' : ''}">
-        <span class="nav-icon">🌾</span>
-        <span>Home</span>
-      </a>
-      <a href="marketplace.html" class="mobile-bottom-nav-item ${currentPath === 'marketplace.html' || currentPath === 'product-detail.html' ? 'active' : ''}">
-        <span class="nav-icon">🛒</span>
-        <span>Market</span>
-      </a>
-      <a href="cart.html" class="mobile-bottom-nav-item ${currentPath === 'cart.html' || currentPath === 'checkout.html' ? 'active' : ''}">
-        <span class="nav-icon">🛍️</span>
-        <span>Cart</span>
-        <span class="nav-cart-badge mobile-cart-badge">0</span>
-      </a>
-      <a href="farmer-dashboard.html" class="mobile-bottom-nav-item ${currentPath.includes('farmer') ? 'active' : ''}">
-        <span class="nav-icon">👨🌾</span>
-        <span>Farmer</span>
-      </a>
-      <a href="customer-dashboard.html" class="mobile-bottom-nav-item ${currentPath.includes('buyer') || currentPath.includes('customer') ? 'active' : ''}">
-        <span class="nav-icon">👤</span>
-        <span>Account</span>
-      </a>
-    `;
+    if (user && user.role === "farmer") {
+      bottomNav.innerHTML = `
+        <a href="index.html" class="mobile-bottom-nav-item ${currentPath === "index.html" || currentPath === "" ? "active" : ""}">
+          <span class="nav-icon">🌾</span>
+          <span>Home</span>
+        </a>
+        <a href="marketplace.html" class="mobile-bottom-nav-item ${currentPath === "marketplace.html" ? "active" : ""}">
+          <span class="nav-icon">🛒</span>
+          <span>Market</span>
+        </a>
+        <a href="cart.html" class="mobile-bottom-nav-item ${currentPath === "cart.html" ? "active" : ""}">
+          <span class="nav-icon">🛍️</span>
+          <span>Cart</span>
+          <span class="nav-cart-badge mobile-cart-badge">0</span>
+        </a>
+        <a href="farmer-dashboard.html" class="mobile-bottom-nav-item ${currentPath.includes("farmer") ? "active" : ""}">
+          <span class="nav-icon">👨🌾</span>
+          <span>Profile</span>
+        </a>
+      `;
+    } else if (user && user.role === "buyer") {
+      bottomNav.innerHTML = `
+        <a href="index.html" class="mobile-bottom-nav-item ${currentPath === "index.html" || currentPath === "" ? "active" : ""}">
+          <span class="nav-icon">🌾</span>
+          <span>Home</span>
+        </a>
+        <a href="marketplace.html" class="mobile-bottom-nav-item ${currentPath === "marketplace.html" ? "active" : ""}">
+          <span class="nav-icon">🛒</span>
+          <span>Market</span>
+        </a>
+        <a href="cart.html" class="mobile-bottom-nav-item ${currentPath === "cart.html" ? "active" : ""}">
+          <span class="nav-icon">🛍️</span>
+          <span>Cart</span>
+          <span class="nav-cart-badge mobile-cart-badge">0</span>
+        </a>
+        <a href="customer-dashboard.html" class="mobile-bottom-nav-item ${currentPath.includes("customer") ? "active" : ""}">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </a>
+      `;
+    } else {
+      bottomNav.innerHTML = `
+        <a href="index.html" class="mobile-bottom-nav-item ${currentPath === "index.html" || currentPath === "" ? "active" : ""}">
+          <span class="nav-icon">🌾</span>
+          <span>Home</span>
+        </a>
+        <a href="marketplace.html" class="mobile-bottom-nav-item ${currentPath === "marketplace.html" ? "active" : ""}">
+          <span class="nav-icon">🛒</span>
+          <span>Market</span>
+        </a>
+        <a href="farmer-register.html" class="mobile-bottom-nav-item ${currentPath.includes("farmer") ? "active" : ""}">
+          <span class="nav-icon">👨🌾</span>
+          <span>Farmer</span>
+        </a>
+        <a href="buyer-category.html" class="mobile-bottom-nav-item ${currentPath.includes("buyer") ? "active" : ""}">
+          <span class="nav-icon">👤</span>
+          <span>Buyer</span>
+        </a>
+      `;
+    }
     document.body.appendChild(bottomNav);
   }
 
   // Floating Action Button (FAB) for Voice Help & Support
-  let fab = document.querySelector('.mobile-floating-fab');
+  let fab = document.querySelector(".mobile-floating-fab");
   if (!fab) {
-    fab = document.createElement('button');
-    fab.className = 'mobile-floating-fab';
-    fab.setAttribute('aria-label', 'Voice Help & Support');
-    fab.innerHTML = '🎙️';
-    fab.title = 'Kisan Voice Assistant & Helpline';
+    fab = document.createElement("button");
+    fab.className = "mobile-floating-fab";
+    fab.setAttribute("aria-label", "Voice Help & Support");
+    fab.innerHTML = "🎙️";
+    fab.title = "Kisan Voice Assistant & Helpline";
     fab.onclick = () => {
-      if (window.VoiceAssistant && typeof VoiceAssistant.speakGuidance === 'function') {
+      if (window.VoiceAssistant && typeof VoiceAssistant.speakGuidance === "function") {
         VoiceAssistant.speakGuidance("नमस्ते! KisanBridge में आपका स्वागत है। आप सीधे खेत से ताज़ा फसलें खरीद सकते हैं या किसान के रूप में फसल बेच सकते हैं।", "hi-IN");
         showToast("🎙️ Kisan Voice Assistant active: Playing Hindi assistance...", "info");
       } else {
@@ -439,32 +765,32 @@ function initMobileNavigation() {
 
 // --- Mobile Navigation Drawer Toggle ---
 function initNavbar() {
-  const hamburger = document.getElementById('hamburger-btn');
-  const mobileDrawer = document.getElementById('mobile-nav-drawer');
+  const hamburger = document.getElementById("hamburger-btn");
+  const mobileDrawer = document.getElementById("mobile-nav-drawer");
 
   if (hamburger && mobileDrawer) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileDrawer.classList.toggle('open');
-    });
+    hamburger.onclick = () => {
+      hamburger.classList.toggle("active");
+      mobileDrawer.classList.toggle("open");
+    };
 
     // Close on link click
-    mobileDrawer.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileDrawer.classList.remove('open');
+    mobileDrawer.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        mobileDrawer.classList.remove("open");
       });
     });
   }
 
   // Header scroll shadow effect
-  const header = document.querySelector('.site-header');
+  const header = document.querySelector(".site-header");
   if (header) {
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
       if (window.scrollY > 20) {
-        header.classList.add('scrolled');
+        header.classList.add("scrolled");
       } else {
-        header.classList.remove('scrolled');
+        header.classList.remove("scrolled");
       }
     });
   }
@@ -550,8 +876,12 @@ async function initHomepage() {
 
 // Global App Initialization
 document.addEventListener('DOMContentLoaded', () => {
+  renderNavbar();
+  initializeLanguageSelector();
+  updateCartCount();
+  setActiveNavLink();
   initNavbar();
   initMobileNavigation();
-  updateCartCount();
   initHomepage();
+  window.addEventListener('hashchange', setActiveNavLink);
 });

@@ -27,9 +27,10 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: var(--container-max);
+  width: 100%;
+  max-width: 1480px; /* Expands so logo is not pushed into center with large empty gap */
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 clamp(20px, 3vw, 40px); /* Clean, controlled gap from left and right edges */
 }
 
 /* Brand Logo */
@@ -37,10 +38,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-heading);
-  font-size: 1.75rem; /* 28px */
+  font-family: 'Poppins', sans-serif; /* Poppins font */
+  font-size: 1.75rem; /* 28px - exactly unchanged */
   font-weight: 800;
-  color: var(--primary-green) !important;
+  color: #1E7B44 !important; /* Premium agricultural green - exactly unchanged */
   text-decoration: none;
   letter-spacing: -0.02em;
   transition: transform var(--transition-fast);
@@ -56,7 +57,9 @@
 }
 
 .nav-logo span.accent {
-  color: var(--text-dark);
+  color: #EA580C !important; /* Orange accent - exactly unchanged */
+  margin-left: 5px; /* Distance between Kisan and Bridge - exactly unchanged */
+  display: inline-block;
 }
 
 /* Desktop Navigation Links */
@@ -68,10 +71,10 @@
 }
 
 .nav-link {
-  font-family: var(--font-heading);
-  font-size: 0.975rem;
-  font-weight: 600;
-  color: var(--text-dark);
+  font-family: 'Poppins', sans-serif;
+  font-size: 15.2px; /* Exactly 15.2px */
+  font-weight: 500;
+  color: #4a4a68; /* Exactly #4a4a68 */
   text-decoration: none;
   position: relative;
   padding: 8px 0;
@@ -228,9 +231,10 @@
 }
 
 .mobile-nav-links a {
-  font-size: 1.15rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15.2px;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #4a4a68;
   display: block;
   padding: 10px 0;
   border-bottom: 1px solid var(--bg-slate);
@@ -246,4 +250,151 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 16px;
+}
+
+/* --- Reusable Language Selector Styles --- */
+.language-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.language-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.language-select {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light, #E5E7EB);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #4a4a68;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.language-select:focus {
+  border-color: var(--primary-green, #1E7B44);
+  box-shadow: 0 0 0 2px rgba(30, 123, 68, 0.15);
+}
+
+/* --- Desktop Nav Links & Center Layout --- */
+.nav-logo {
+  flex-shrink: 0;
+}
+
+.nav-center-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 0 clamp(10px, 2vw, 28px);
+}
+
+.nav-center-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.2vw, 32px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-right-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background-color: var(--bg-slate, #F3F4F6);
+  color: var(--text-dark, #1F2937);
+  font-size: 1.25rem;
+  text-decoration: none;
+  border: 1px solid var(--border-light, #E5E7EB);
+  transition: all 0.2s ease;
+}
+
+.cart-link:hover {
+  background-color: #E8F5E9;
+  border-color: #A7F3D0;
+  transform: translateY(-2px);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  background-color: #EF4444;
+  color: #FFFFFF;
+  line-height: 1;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 5px rgba(239, 68, 68, 0.4);
+}
+
+/* --- Non-blocking Language Toast --- */
+.kisan-lang-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1F2937;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 10002;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.kisan-lang-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Breakpoint for Navbar */
+@media (max-width: 900px) {
+  .nav-center-wrapper,
+  .navbar-right-group {
+    display: none !important;
+  }
+  .hamburger-btn {
+    display: flex !important;
+  }
 }

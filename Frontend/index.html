@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -17,53 +18,63 @@
 
   <!-- Sticky Navbar -->
   <header class="site-header">
-    <div class="navbar-container">
-      <a href="index.html" class="nav-logo">
+    <div class="navbar-container" id="navbarContainer">
+      <a href="index.html" class="nav-logo" aria-label="KisanBridge Home">
         <span class="logo-icon">🌾</span>
         <span>Kisan<span class="accent">Bridge</span></span>
       </a>
 
-      <!-- Desktop Nav -->
-      <ul class="nav-menu">
-        <li><a href="index.html" class="nav-link active">Home</a></li>
-        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
-        <li><a href="farmer-register.html" class="nav-link">Farmers</a></li>
-        <li><a href="buyer-category.html" class="nav-link">Buyers</a></li>
-      </ul>
+      <nav class="nav-center-wrapper desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-menu nav-links nav-center-links">
+          <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+          <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+          <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+          <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+        </ul>
+      </nav>
 
-      <!-- Nav Actions -->
-      <div class="nav-actions">
-        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart">
-          🛒
-          <span class="nav-cart-badge">0</span>
-        </a>
-        <a href="farmer-dashboard.html" class="btn btn-outline-green btn-sm nav-login-btn">Farmer Portal</a>
-        <a href="customer-dashboard.html" class="btn btn-green btn-sm nav-login-btn">Buyer Login</a>
-
-        <!-- Mobile Hamburger Button -->
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+      <div class="navbar-right-group desktop-nav">
+        <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+        <div class="language-selector">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <select id="languageSelect" class="language-select" aria-label="Select language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+            <option value="mr">मराठी</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
       </div>
+
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
   <!-- Mobile Drawer Menu -->
   <div class="mobile-nav-drawer" id="mobile-nav-drawer">
     <ul class="mobile-nav-links">
-      <li><a href="index.html" class="active">🌾 Home</a></li>
-      <li><a href="marketplace.html">🛒 Buy Fresh Produce</a></li>
-      <li><a href="farmer-register.html">👨🌾 Farmer Registration</a></li>
-      <li><a href="buyer-category.html">🏢 Buyer Registration</a></li>
-      <li><a href="farmer-dashboard.html">📊 Farmer Dashboard</a></li>
-      <li><a href="customer-dashboard.html">👤 Customer Dashboard</a></li>
-      <li><a href="cart.html">🛍️ My Cart</a></li>
+      <li><a href="index.html" class="nav-link active" data-nav="home">Home</a></li>
+      <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+      <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+      <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+      <li><a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a></li>
     </ul>
-    <div class="mobile-nav-actions">
-      <a href="farmer-register.html" class="btn btn-green btn-full">Join as Farmer</a>
-      <a href="buyer-category.html" class="btn btn-purple btn-full">Start Buying</a>
+    <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light, #E5E7EB);">
+      <div class="language-selector">
+        <span class="language-icon" aria-hidden="true">🌐</span>
+        <select id="mobileLanguageSelect" class="language-select" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="mr">मराठी</option>
+          <option value="ta">தமிழ்</option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -207,139 +218,184 @@
       </div>
     </section>
 
-    <!-- MANDI PRICES SECTION -->
-    <section class="section-padding" style="background-color: var(--bg-white);">
+    <!-- 3 COMPACT FEATURE PREVIEW CARDS SECTION -->
+    <section class="home-features-section">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">📊 Live Market Benchmark</span>
-          <h2 class="section-title">📢 Today's Mandi Prices</h2>
-          <p class="section-subtitle">Real-time daily rates updated from Azadpur, Lasalgaon, Agra, and Sonipat APMC Mandis.</p>
+        
+        <div class="home-section-header">
+          <span class="home-section-badge">⚡ Agriculture Intelligence</span>
+          <h2 class="home-section-title">Explore Farm Market Services</h2>
+          <p class="home-section-desc">Real-time daily mandi rates, government support schemes, and seasonal agronomic advisory tailored for Indian agriculture.</p>
         </div>
 
-        <div class="grid grid-4" id="mandi-prices-grid">
-          <!-- Populated dynamically by main.js with 4 cards -->
-          <div class="mandi-price-card">
-            <div class="mandi-card-header">
-              <div class="mandi-crop-icon">🍅</div>
-              <span class="badge badge-green">▼ Best Value</span>
+        <div class="feature-cards-grid">
+          
+          <!-- 1. LIVE MARKET BENCHMARK CARD -->
+          <div class="feature-preview-card" data-href="mandi-prices.html" aria-label="View Today's Mandi Prices">
+            <div>
+              <div class="card-header-badge">
+                <span>📊</span> LIVE MARKET BENCHMARK
+              </div>
+              
+              <div class="card-title-group">
+                <h3 class="card-main-heading">Today's Mandi Prices</h3>
+                <p class="card-short-desc">Daily market rates from major APMC mandis.</p>
+              </div>
+
+              <!-- 4 Small Price Previews -->
+              <div class="preview-items-list">
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🍅</span> Tomato (Hybrid)</span>
+                  <span class="preview-item-value">₹25/kg</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🧅</span> Nasik Red Onion</span>
+                  <span class="preview-item-value">₹18/kg</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🥔</span> Potato (Jyoti)</span>
+                  <span class="preview-item-value">₹20/kg</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🥦</span> Green Cabbage</span>
+                  <span class="preview-item-value">₹15/kg</span>
+                </div>
+              </div>
+
+              <!-- Location Examples Strip -->
+              <div class="preview-locations-strip">
+                <strong>Tracked Hubs:</strong> Azadpur Mandi, Delhi • Lasalgaon APMC, Nashik • Fatehabad Mandi, Agra • Sonipat Mandi
+              </div>
             </div>
-            <h4>Tomato (Hybrid)</h4>
-            <div class="mandi-price-display">
-              <span class="mandi-price-value">₹25</span>
-              <span class="mandi-price-unit"> / kg</span>
-            </div>
-            <div class="mandi-location-tag">📍 Azadpur Mandi, Delhi</div>
+
+            <a href="mandi-prices.html" class="card-action-btn btn-card-green">View All Mandi Prices →</a>
           </div>
-          <div class="mandi-price-card">
-            <div class="mandi-card-header">
-              <div class="mandi-crop-icon">🧅</div>
-              <span class="badge badge-amber">▲ Up</span>
+
+          <!-- 2. GOVERNMENT SCHEMES CARD -->
+          <div class="feature-preview-card card-accent-purple" data-href="government-schemes.html" aria-label="Explore Government Schemes">
+            <div>
+              <div class="card-header-badge">
+                <span>🏛️</span> SARKAR KI YOJNAYEIN
+              </div>
+              
+              <div class="card-title-group">
+                <h3 class="card-main-heading">Government Schemes for Farmers</h3>
+                <p class="card-short-desc">Financial support, low-interest credit, and institutional grants.</p>
+              </div>
+
+              <!-- 3 Small Scheme Previews -->
+              <div class="preview-items-list">
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">💰</span> PM-Kisan</span>
+                  <span class="preview-item-value" style="color: var(--purple-dark);">₹6,000/year</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🏦</span> Kisan Credit Card</span>
+                  <span class="preview-item-value" style="color: var(--purple-dark);">Credit up to ₹3,00,000</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🤝</span> FPO Scheme</span>
+                  <span class="preview-item-value" style="color: var(--purple-dark);">Support up to ₹18 lakh</span>
+                </div>
+              </div>
+
+              <!-- Focus Strip -->
+              <div class="preview-locations-strip">
+                <strong>Assistance Focus:</strong> Direct electronic bank transfers, 4% subsidized crop loans, and CBBO cluster grants.
+              </div>
             </div>
-            <h4>Nasik Red Onion</h4>
-            <div class="mandi-price-display">
-              <span class="mandi-price-value">₹18</span>
-              <span class="mandi-price-unit"> / kg</span>
-            </div>
-            <div class="mandi-location-tag">📍 Lasalgaon APMC, Nashik</div>
+
+            <a href="government-schemes.html" class="card-action-btn btn-card-purple">Explore Government Schemes →</a>
           </div>
-          <div class="mandi-price-card">
-            <div class="mandi-card-header">
-              <div class="mandi-crop-icon">🥔</div>
-              <span class="badge badge-green">● Stable</span>
+
+          <!-- 3. CROP ADVISORY CARD -->
+          <div class="feature-preview-card" data-href="crop-advisory.html" aria-label="View Crop Advisory">
+            <div>
+              <div class="card-header-badge">
+                <span>🌱</span> CROP ADVISORY
+              </div>
+              
+              <div class="card-title-group">
+                <h3 class="card-main-heading">Suggested Crops for September</h3>
+                <p class="card-short-desc">Seasonal crops selected for demand and profitability.</p>
+              </div>
+
+              <!-- 4 Compact Crop Previews -->
+              <div class="preview-items-list">
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🍅</span> Hybrid Tomato</span>
+                  <span class="preview-item-value" style="color: #EA580C; font-size: 0.82rem;">High demand</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🧅</span> Nasik Red Onion</span>
+                  <span class="preview-item-value" style="color: #EA580C; font-size: 0.82rem;">Very high demand</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🥔</span> Early Kufri Potato</span>
+                  <span class="preview-item-value" style="color: #2563EB; font-size: 0.82rem;">Medium demand</span>
+                </div>
+                <div class="preview-item-row">
+                  <span class="preview-item-name"><span class="item-emoji">🥦</span> Green Cabbage</span>
+                  <span class="preview-item-value" style="color: #EA580C; font-size: 0.82rem;">High demand</span>
+                </div>
+              </div>
+
+              <!-- Agronomic Focus Strip -->
+              <div class="preview-locations-strip">
+                <strong>Agronomic Advisory:</strong> Optimized harvest cycles, high wholesale liquidity, and direct contract pre-booking.
+              </div>
             </div>
-            <h4>Potato (Jyoti)</h4>
-            <div class="mandi-price-display">
-              <span class="mandi-price-value">₹20</span>
-              <span class="mandi-price-unit"> / kg</span>
-            </div>
-            <div class="mandi-location-tag">📍 Fatehabad Mandi, Agra</div>
+
+            <a href="crop-advisory.html" class="card-action-btn btn-card-green">View Crop Advisory →</a>
           </div>
-          <div class="mandi-price-card">
-            <div class="mandi-card-header">
-              <div class="mandi-crop-icon">🥦</div>
-              <span class="badge badge-green">▼ Best Value</span>
-            </div>
-            <h4>Green Cabbage</h4>
-            <div class="mandi-price-display">
-              <span class="mandi-price-value">₹15</span>
-              <span class="mandi-price-unit"> / kg</span>
-            </div>
-            <div class="mandi-location-tag">📍 Sonipat Veg Mandi, Haryana</div>
-          </div>
+
         </div>
+
       </div>
     </section>
 
-    <!-- GOVERNMENT SCHEMES SECTION -->
-    <section class="section-padding" style="background-color: var(--bg-slate);">
+    <!-- 4. JOIN KISANBRIDGE PROFILE SELECTION SECTION -->
+    <section class="profile-selection-section">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag" style="background-color: var(--purple-light); color: var(--purple-dark);">🏛️ Sarkar Ki Yojnayein</span>
-          <h2 class="section-title">🏛️ Government Schemes for Farmers</h2>
-          <p class="section-subtitle">Financial support, low-interest working credit, and institutional grants for agricultural prosperity.</p>
+        <div class="profile-section-header">
+          <span class="profile-tag">🚀 Join KisanBridge</span>
+          <h2 class="profile-title">Choose your profile to unlock a custom dashboard.</h2>
+          <p class="profile-subtitle">Tailored portals for direct farmer sales, household veg baskets, and bulk institutional procurement.</p>
         </div>
 
-        <div class="grid grid-3" id="schemes-grid">
-          <!-- Populated dynamically by main.js with 3 cards -->
-        </div>
-      </div>
-    </section>
+        <div class="profile-cards-grid">
+          
+          <!-- Profile 1: Farmer -->
+          <div class="profile-choice-card" data-href="farmer-register.html" aria-label="Join as Farmer">
+            <div class="profile-icon-circle">👨🌾</div>
+            <h3 class="profile-card-name">Farmer (किसान)</h3>
+            <p class="profile-card-desc">Sell produce directly at fair transparent rates.</p>
+            <a href="farmer-register.html" class="profile-card-btn">Register as Farmer →</a>
+          </div>
 
-    <!-- SEASONAL CROPS SECTION -->
-    <section class="section-padding" style="background-color: var(--bg-white);">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">🌱 Crop Advisory Advisory</span>
-          <h2 class="section-title">📅 Suggested Crops for September</h2>
-          <p class="section-subtitle">High-demand crops recommended by agricultural scientists for maximum yield and profitability this season.</p>
-        </div>
+          <!-- Profile 2: Family / Household -->
+          <div class="profile-choice-card card-family" data-href="buyer-family-register.html" aria-label="Join as Family">
+            <div class="profile-icon-circle">🏠</div>
+            <h3 class="profile-card-name">Family / Household</h3>
+            <p class="profile-card-desc">Order fresh produce directly at your doorstep.</p>
+            <a href="buyer-family-register.html" class="profile-card-btn">Register Household →</a>
+          </div>
 
-        <div class="grid grid-4" id="seasonal-crops-grid">
-          <!-- Populated dynamically by main.js with 4 crops -->
-        </div>
-      </div>
-    </section>
+          <!-- Profile 3: Business / Institution -->
+          <div class="profile-choice-card card-business" data-href="buyer-business-register.html" aria-label="Join as Business">
+            <div class="profile-icon-circle">🏨</div>
+            <h3 class="profile-card-name">Business / Institution</h3>
+            <p class="profile-card-desc">Procure bulk vegetables and fruits for your business.</p>
+            <a href="buyer-business-register.html" class="profile-card-btn">Register Business →</a>
+          </div>
 
-    <!-- USER TYPE SELECTION SECTION -->
-    <section class="section-padding" style="background-color: var(--bg-cream);">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">🚀 Join KisanBridge</span>
-          <h2 class="section-title">I am a:</h2>
-          <p class="section-subtitle">Choose your profile to unlock custom dashboards, wholesale quotes, or direct farm listings.</p>
-        </div>
-
-        <div class="grid grid-3">
-          <!-- 1. Farmer Card -->
-          <a href="farmer-register.html" class="role-select-card">
-            <div class="role-icon-circle">👨🌾</div>
-            <h3 class="role-title">Farmer (किसान)</h3>
-            <p class="role-desc">Sell produce directly at fair transparent rates, avoid middlemen commissions, and access pre-harvest advance bookings.</p>
-            <span class="btn btn-green btn-full">Register as Farmer →</span>
-          </a>
-
-          <!-- 2. Family / Buyer Card -->
-          <a href="buyer-family-register.html" class="role-select-card">
-            <div class="role-icon-circle">🏠</div>
-            <h3 class="role-title">Family / Household</h3>
-            <p class="role-desc">Order fresh, zero-chemical farm harvest directly to your doorstep with customized Weekly Veg Box subscriptions.</p>
-            <span class="btn btn-purple btn-full">Register Household →</span>
-          </a>
-
-          <!-- 3. Business / Buyer Card -->
-          <a href="buyer-business-register.html" class="role-select-card">
-            <div class="role-icon-circle">🏨</div>
-            <h3 class="role-title">Business / Institution</h3>
-            <p class="role-desc">Procure bulk vegetables and fruits for hotels, restaurants, corporate cafeterias, school hostels, and retail stores.</p>
-            <span class="btn btn-outline-green btn-full">Register Business →</span>
-          </a>
         </div>
       </div>
     </section>
   </main>
 
   <!-- Site Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer" id="contact">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -354,22 +410,22 @@
         </div>
 
         <div class="footer-col">
-          <h4>Quick Links</h4>
+          <h4>Explore Services</h4>
           <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="mandi-prices.html">Live Mandi Prices</a></li>
+            <li><a href="government-schemes.html">Government Schemes</a></li>
+            <li><a href="crop-advisory.html">Crop Advisory</a></li>
             <li><a href="marketplace.html">Browse Marketplace</a></li>
-            <li><a href="farmer-register.html">Farmer Registration</a></li>
-            <li><a href="buyer-category.html">Buyer Categories</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Portals</h4>
+          <h4>Quick Links</h4>
           <ul class="footer-links">
+            <li><a href="farmer-register.html">Farmer Registration</a></li>
+            <li><a href="buyer-category.html">Buyer Categories</a></li>
             <li><a href="farmer-dashboard.html">Farmer Dashboard</a></li>
-            <li><a href="customer-dashboard.html">Customer Dashboard</a></li>
-            <li><a href="cart.html">Shopping Cart</a></li>
-            <li><a href="checkout.html">Checkout & Map</a></li>
+            <li><a href="customer-dashboard.html">Buyer Portal</a></li>
           </ul>
         </div>
 
@@ -391,7 +447,8 @@
     </div>
   </footer>
 
-  <!-- Main JavaScript File -->
+  <!-- JavaScript Files -->
   <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>

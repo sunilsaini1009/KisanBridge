@@ -2,7 +2,7 @@
    KISANBRIDGE - 4-STEP FARMER REGISTRATION CONTROLLER
    ========================================================================== */
 
-const FarmerFormController = {
+var FarmerFormController = {
   currentStep: 1,
   totalSteps: 4,
 
@@ -99,34 +99,235 @@ const FarmerFormController = {
     });
   },
 
+  validateField(input) {
+    if (!input) return true;
+
+    let isValid = true;
+    let errorMsg = "";
+
+    const id = input.id;
+    const val = input.value ? input.value.trim() : "";
+
+    if (id === 'farmerFullName') {
+      if (!val || val.length < 2) {
+        isValid = false;
+        errorMsg = "Please enter your full name (at least 2 characters).";
+      }
+    } else if (id === 'farmerFatherName') {
+      if (!val || val.length < 2) {
+        isValid = false;
+        errorMsg = "Please enter father's/husband's name.";
+      }
+    } else if (id === 'farmerMobile') {
+      const cleanPhone = this.normalizePhone(val);
+      if (!cleanPhone || cleanPhone.length !== 10 || !/^[6-9]\d{9}$/.test(cleanPhone)) {
+        isValid = false;
+        errorMsg = "Please enter a valid 10-digit mobile number.";
+      }
+    } else if (id === 'farmerEmail') {
+      if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        isValid = false;
+        errorMsg = "Please enter a valid email address.";
+      }
+    } else if (id === 'farmerState') {
+      if (!val) {
+        isValid = false;
+        errorMsg = "Please select your state.";
+      }
+    } else if (id === 'farmerDistrict') {
+      if (!val || val.length < 2) {
+        isValid = false;
+        errorMsg = "Please enter your district.";
+      }
+    } else if (id === 'farmerVillage') {
+      if (!val || val.length < 2) {
+        isValid = false;
+        errorMsg = "Please enter your village/town.";
+      }
+    } else if (id === 'farmerPincode') {
+      if (!val || !/^\d{6}$/.test(val)) {
+        isValid = false;
+        errorMsg = "Please enter 6-digit postal pincode.";
+      }
+    } else if (id === 'farmSizeAcres') {
+      if (!val || isNaN(val) || parseFloat(val) <= 0) {
+        isValid = false;
+        errorMsg = "Please specify a valid farm size in acres.";
+      }
+    } else if (id === 'farmerAadhaar') {
+      const cleanAadhaar = val.replace(/\s/g, '');
+      if (!cleanAadhaar || !/^\d{12}$/.test(cleanAadhaar)) {
+        isValid = false;
+        errorMsg = "Please enter valid 12-digit Aadhaar number.";
+      }
+    } else if (id === 'bankAccount') {
+      if (!val || val.length < 8) {
+        isValid = false;
+        errorMsg = "Please enter valid bank account number.";
+      }
+    } else if (id === 'bankIfsc') {
+      if (!val || val.length < 8) {
+        isValid = false;
+        errorMsg = "Please enter valid bank IFSC code.";
+      }
+    } else if (id === 'termsAgreement') {
+      if (!input.checked) {
+        isValid = false;
+        errorMsg = "You must agree to the terms to proceed.";
+      }
+    } else if (input.hasAttribute('required') && !val) {
+      isValid = false;
+      errorMsg = "This field is required.";
+    }
+
+    if (!isValid) {
+      this.markInvalid(input, errorMsg);
+    } else {
+      this.markValid(input);
+    }
+
+    return isValid;
+  },
+
+  normalizePhone(raw) {
+    if (!raw) return "";
+    let clean = String(raw).trim().replace(/[\s\-()]/g, "");
+    if (clean.startsWith("+91")) clean = clean.substring(3);
+    else if (clean.startsWith("91") && clean.length === 12) clean = clean.substring(2);
+    else if (clean.startsWith("0") && clean.length === 11) clean = clean.substring(1);
+    return clean;
+  },
+
+  markInvalid(input, message) {
+    input.classList.add('is-invalid');
+    input.classList.remove('is-valid');
+
+    const group = input.closest('.form-group') || input.parentElement;
+    if (group) {
+      group.classList.add('has-error');
+      let feedback = group.querySelector('.invalid-feedback');
+      if (!feedback) {
+        feedback = document.createElement('span');
+        feedback.className = 'invalid-feedback';
+        group.appendChild(feedback);
+      }
+      if (message) feedback.textContent = message;
+      feedback.style.display = 'block';
+    }
+  },
+
+  markValid(input) {
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+
+    const group = input.closest('.form-group') || input.parentElement;
+    if (group) {
+      group.classList.remove('has-error');
+      const feedback = group.querySelector('.invalid-feedback');
+      if (feedback) feedback.style.display = 'none';
+    }
+  },
+
   validateStep(stepNumber) {
     let isValid = true;
     const currentPane = document.getElementById(`step-pane-${stepNumber}`);
-    if (!currentPane) return true;
+    
+    let inputs = [];
+    if (currentPane) {
+      inputs = Array.from(currentPane.querySelectorAll('input[required], select[required], input[type="tel"], #farmerFullName, #farmerMobile, #farmerState, #farmerDistrict, #farmerVillage, #farmSizeAcres, #termsAgreement'));
+    } else if (stepNumber === 1) {
+      inputs = [
+        document.getElementById('farmerFullName'),
+        document.getElementById('farmerFatherName'),
+        document.getElementById('farmerMobile')
+      ].filter(Boolean);
+    } else if (stepNumber === 2) {
+      inputs = [
+        document.getElementById('farmerState'),
+        document.getElementById('farmerDistrict'),
+        document.getElementById('farmerVillage'),
+        document.getElementById('farmerPincode'),
+        document.getElementById('farmSizeAcres')
+      ].filter(Boolean);
+    } else if (stepNumber === 3) {
+      inputs = [
+        document.getElementById('farmerAadhaar'),
+        document.getElementById('bankAccount'),
+        document.getElementById('bankIfsc')
+      ].filter(Boolean);
+    } else if (stepNumber === 4) {
+      inputs = [
+        document.getElementById('termsAgreement')
+      ].filter(Boolean);
+    }
 
-    // Validate required inputs
-    const inputs = currentPane.querySelectorAll('input[required], select[required]');
     inputs.forEach(input => {
-      if (!input.value.trim()) {
-        input.classList.add('is-invalid');
-        isValid = false;
-      } else {
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-      }
-
-      // Phone number check
-      if (input.type === 'tel' && input.value.trim().length < 10) {
-        input.classList.add('is-invalid');
+      const fieldValid = this.validateField(input);
+      if (!fieldValid) {
         isValid = false;
       }
     });
 
-    if (!isValid) {
-      showToast("Kripya sabhi jaruri fields sahi se bharein (Please fill required fields)", "error");
+    // Special check for FPO conditional fields if step 4
+    if (stepNumber === 4) {
+      const fpoYes = document.getElementById('fpo-yes');
+      if (fpoYes && fpoYes.checked) {
+        const fpoName = document.getElementById('fpoName');
+        const fpoId = document.getElementById('fpoId');
+        if (fpoName && !fpoName.value.trim()) {
+          this.markInvalid(fpoName, "Please enter your FPO name.");
+          isValid = false;
+        } else if (fpoName) {
+          this.markValid(fpoName);
+        }
+        if (fpoId && !fpoId.value.trim()) {
+          this.markInvalid(fpoId, "Please enter FPO registration ID.");
+          isValid = false;
+        } else if (fpoId) {
+          this.markValid(fpoId);
+        }
+      }
+
+      const terms = document.getElementById('termsAgreement');
+      if (terms && !terms.checked) {
+        this.markInvalid(terms, "You must agree to the terms to proceed.");
+        isValid = false;
+      }
     }
 
     return isValid;
+  },
+
+  validateAll() {
+    let firstInvalidStep = 0;
+    let allValid = true;
+
+    for (let s = 1; s <= this.totalSteps; s++) {
+      const stepValid = this.validateStep(s);
+      if (!stepValid) {
+        allValid = false;
+        if (!firstInvalidStep) {
+          firstInvalidStep = s;
+        }
+      }
+    }
+
+    if (!allValid && firstInvalidStep) {
+      this.goToStep(firstInvalidStep);
+      const firstInvalidInput = document.querySelector(`#step-pane-${firstInvalidStep} .is-invalid`) || document.querySelector('.is-invalid');
+      if (firstInvalidInput && typeof firstInvalidInput.focus === 'function') {
+        firstInvalidInput.focus();
+      }
+    }
+
+    return allValid;
+  },
+
+  goToStep(stepNumber) {
+    if (stepNumber < 1 || stepNumber > this.totalSteps) return;
+    this.currentStep = stepNumber;
+    this.updateWizardUI();
+    window.scrollTo({ top: 100, behavior: 'smooth' });
   },
 
   nextStep() {
@@ -164,13 +365,16 @@ const FarmerFormController = {
       if (stepHeader) {
         if (i < this.currentStep) {
           stepHeader.className = 'wizard-step completed';
-          stepHeader.querySelector('.step-circle').innerHTML = '✓';
+          const circle = stepHeader.querySelector('.step-circle');
+          if (circle) circle.innerHTML = '✓';
         } else if (i === this.currentStep) {
           stepHeader.className = 'wizard-step active';
-          stepHeader.querySelector('.step-circle').innerHTML = i;
+          const circle = stepHeader.querySelector('.step-circle');
+          if (circle) circle.innerHTML = i;
         } else {
           stepHeader.className = 'wizard-step';
-          stepHeader.querySelector('.step-circle').innerHTML = i;
+          const circle = stepHeader.querySelector('.step-circle');
+          if (circle) circle.innerHTML = i;
         }
       }
     }
@@ -203,37 +407,151 @@ const FarmerFormController = {
   },
 
   submitForm() {
-    if (!this.validateStep(this.currentStep)) return;
+    const fullNameInput = document.getElementById('farmerFullName');
+    const mobileInput = document.getElementById('farmerMobile');
+    const terms = document.getElementById('termsAgreement');
 
-    const fullName = document.getElementById('farmerFullName')?.value || "राम सिंह (Ram Singh)";
-    const mobileNumber = document.getElementById('farmerMobile')?.value || "9876543210";
-    const village = document.getElementById('farmerVillage')?.value || "Dhanwapur";
-    const district = document.getElementById('farmerDistrict')?.value || "Gurugram";
-    const state = document.getElementById('farmerState')?.value || "Haryana";
-    const farmSize = document.getElementById('farmSizeAcres')?.value || "5";
+    const fullName = fullNameInput ? fullNameInput.value.trim() : "";
+    const rawPhone = mobileInput ? mobileInput.value.trim() : "";
+    const phone = this.normalizePhone(rawPhone);
 
-    const farmerProfile = {
+    let hasCriticalError = false;
+    if (!fullName || fullName.length < 2) {
+      if (fullNameInput) this.markInvalid(fullNameInput, "Please enter your full name (at least 2 characters).");
+      hasCriticalError = true;
+    }
+    if (!phone || phone.length !== 10 || !/^[6-9]\d{9}$/.test(phone)) {
+      if (mobileInput) this.markInvalid(mobileInput, "Please enter a valid 10-digit mobile number.");
+      hasCriticalError = true;
+    }
+    if (terms && !terms.checked) {
+      this.markInvalid(terms, "You must agree to the terms to proceed.");
+      hasCriticalError = true;
+    }
+
+    if (hasCriticalError || !this.validateAll()) {
+      return;
+    }
+
+    const villageInput = document.getElementById('farmerVillage');
+    const districtInput = document.getElementById('farmerDistrict');
+    const stateSelect = document.getElementById('farmerState');
+    const farmSizeInput = document.getElementById('farmSizeAcres');
+
+    const village = villageInput ? villageInput.value.trim() : "";
+    const district = districtInput ? districtInput.value.trim() : "";
+    const state = stateSelect ? stateSelect.value.trim() : "";
+    const farmSize = farmSizeInput ? farmSizeInput.value.trim() : "";
+
+    const cropChecked = document.querySelectorAll('input[name="crops"]:checked');
+    const cropList = Array.from(cropChecked).map(c => c.value);
+    const primaryCrop = cropList.length > 0 ? cropList.join(', ') : 'Mixed Crops';
+
+    // Optional email check
+    const emailInput = document.getElementById('farmerEmail');
+    const email = emailInput && emailInput.value.trim() ? emailInput.value.trim() : undefined;
+
+    // Preferred language
+    const prefLangSelect = document.getElementById('preferredLanguage');
+    if (prefLangSelect && prefLangSelect.value) {
+      const langMap = {
+        "Hindi": "hi",
+        "English": "en",
+        "Punjabi": "pa",
+        "Marathi": "mr",
+        "Tamil": "ta"
+      };
+      const selectedLang = langMap[prefLangSelect.value] || "en";
+      localStorage.setItem("selectedLanguage", selectedLang);
+    }
+
+    // 1. Save currentUser
+    const currentUser = {
       name: fullName,
-      phone: mobileNumber,
+      role: "farmer",
+      registered: true,
+      phone: phone,
       village: village,
       district: district,
       state: state,
-      farmSize: `${farmSize} Acres`,
-      registeredDate: formatDate(),
-      role: 'farmer',
-      verified: true
+      primaryCrop: primaryCrop,
+      farmSize: farmSize
     };
+    if (email) currentUser.email = email;
+    Object.keys(currentUser).forEach(k => currentUser[k] === undefined && delete currentUser[k]);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-    LocalStorageManager.save('kisan_farmer_user', farmerProfile);
-    LocalStorageManager.save('kisan_user_role', 'farmer');
+    // 2. Save farmerProfile
+    const farmerProfile = {
+      name: fullName,
+      phone: phone,
+      village: village,
+      district: district,
+      state: state,
+      primaryCrop: primaryCrop,
+      farmSize: farmSize,
+      registeredAt: new Date().toISOString()
+    };
+    if (email) farmerProfile.email = email;
+    Object.keys(farmerProfile).forEach(k => farmerProfile[k] === undefined && delete farmerProfile[k]);
+    localStorage.setItem("farmerProfile", JSON.stringify(farmerProfile));
 
-    showToast("🎉 Badhai ho! Registration safal raha! (Redirecting to Dashboard...)", "success", 2500);
+    // 3. Save legacy dashboard profile for UI compatibility
+    try {
+      if (typeof LocalStorageManager !== 'undefined') {
+        LocalStorageManager.save('kisan_farmer_user', {
+          name: fullName,
+          phone: phone,
+          village: village || "Dhanwapur",
+          district: district || "Gurugram",
+          state: state || "Haryana",
+          farmSize: farmSize ? `${farmSize} Acres` : "4.5 Acres",
+          registeredDate: typeof formatDate === 'function' ? formatDate() : new Date().toLocaleDateString(),
+          role: 'farmer',
+          verified: true
+        });
+        LocalStorageManager.save('kisan_user_role', 'farmer');
+      }
+    } catch (e) {}
+
+    // 4. Show success toast (non-blocking)
+    if (typeof showToast === 'function') {
+      showToast("Farmer registration successful! Welcome to KisanBridge.", "success", 2500);
+    }
+
+    // 5. Safe redirect with allowed list
+    const allowedFarmerPages = [
+      "farmer-dashboard.html"
+    ];
+
+    let targetPage = "farmer-dashboard.html";
+    const redirectTarget = localStorage.getItem("redirectAfterFarmerRegistration");
+    if (redirectTarget && allowedFarmerPages.includes(redirectTarget)) {
+      targetPage = redirectTarget;
+    }
+    localStorage.removeItem("redirectAfterFarmerRegistration");
 
     setTimeout(() => {
-      window.location.href = 'farmer-dashboard.html';
-    }, 1800);
+      window.location.href = targetPage;
+    }, 1000);
   }
 };
+
+function validateFarmerForm(formElement) {
+  if (typeof FarmerFormController !== 'undefined' && FarmerFormController.validateAll) {
+    return FarmerFormController.validateAll();
+  }
+  return true;
+}
+
+if (typeof window !== 'undefined') {
+  window.FarmerFormController = FarmerFormController;
+  window.validateFarmerForm = validateFarmerForm;
+}
+if (typeof global !== 'undefined') {
+  global.FarmerFormController = FarmerFormController;
+  global.validateFarmerForm = validateFarmerForm;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   FarmerFormController.init();

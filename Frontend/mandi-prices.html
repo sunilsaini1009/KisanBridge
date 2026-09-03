@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Today's Mandi Prices - Live APMC Market Benchmark | KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/feature-pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="site-header">
+    <div class="navbar-container" id="navbarContainer">
+      <a href="index.html" class="nav-logo" aria-label="KisanBridge Home">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <nav class="nav-center-wrapper desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-menu nav-links nav-center-links">
+          <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+          <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+          <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+          <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+        </ul>
+      </nav>
+
+      <div class="navbar-right-group desktop-nav">
+        <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+        <div class="language-selector">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <select id="languageSelect" class="language-select" aria-label="Select language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+            <option value="mr">मराठी</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="feature-page-header">
+      <div class="container">
+        <div class="header-nav-strip">
+          <a href="index.html" class="btn-back-home" aria-label="Back to Homepage">
+            <span>←</span> Back to Home
+          </a>
+          <span class="last-updated-pill">⏱️ Daily APMC Bulletin: Today, 06:00 AM IST</span>
+        </div>
+
+        <div class="page-title-wrapper">
+          <div class="feature-page-badge">
+            <span>📊</span> LIVE MARKET BENCHMARK
+          </div>
+          <h1 class="feature-page-title">Today's Mandi Prices</h1>
+          <p class="feature-page-desc">
+            Real-time daily benchmark rates compiled from Azadpur, Lasalgaon, Agra, and Sonipat APMC Mandis to ensure fair and transparent farm-gate pricing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls & Content Section -->
+    <section class="feature-content-section">
+      <div class="container">
+        
+        <!-- Controls Toolbar -->
+        <div class="feature-controls-bar">
+          <div class="search-box-wrapper">
+            <span class="search-icon-inside">🔍</span>
+            <input 
+              type="text" 
+              id="mandi-search-input" 
+              class="feature-search-input" 
+              placeholder="Search crop or mandi location..." 
+              aria-label="Search mandi crops"
+            >
+          </div>
+
+          <div class="filter-pills-group">
+            <button class="filter-pill-btn mandi-category-pill active" data-category="all">All Crops</button>
+            <button class="filter-pill-btn mandi-category-pill" data-category="vegetables">Vegetables</button>
+            <button class="filter-pill-btn mandi-category-pill" data-category="fruits">Fruits</button>
+            <button class="filter-pill-btn mandi-category-pill" data-category="grains">Grains</button>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <select id="mandi-location-select" class="feature-select-dropdown" aria-label="Filter by Mandi Location">
+              <option value="all">All APMC Mandis</option>
+              <option value="azadpur">Azadpur Mandi, Delhi</option>
+              <option value="lasalgaon">Lasalgaon APMC, Nashik</option>
+              <option value="fatehabad">Fatehabad Mandi, Agra</option>
+              <option value="sonipat">Sonipat Mandi, Haryana</option>
+            </select>
+
+            <select id="mandi-sort-select" class="feature-select-dropdown" aria-label="Sort by Price">
+              <option value="default">Sort: Recommended</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Detailed Mandi Cards Grid -->
+        <div class="mandi-cards-grid" id="mandi-cards-grid">
+          
+          <!-- Card 1: Tomato (Hybrid) -->
+          <div class="mandi-detail-card" data-crop="tomato hybrid" data-mandi="azadpur mandi delhi" data-category="vegetables" data-price="25">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🍅</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Tomato (Hybrid)</h3>
+                    <span class="mandi-crop-category">Vegetable • Grade A</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-best">▼ Best Value</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Azadpur Mandi, Delhi
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹25</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Nasik Red Onion -->
+          <div class="mandi-detail-card" data-crop="nasik red onion" data-mandi="lasalgaon apmc nashik" data-category="vegetables" data-price="18">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🧅</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Nasik Red Onion</h3>
+                    <span class="mandi-crop-category">Vegetable • Medium Size</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-up">▲ Up ₹2.00</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Lasalgaon APMC, Nashik
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹18</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Potato (Jyoti) -->
+          <div class="mandi-detail-card" data-crop="potato jyoti" data-mandi="fatehabad mandi agra" data-category="vegetables" data-price="20">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🥔</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Potato (Jyoti)</h3>
+                    <span class="mandi-crop-category">Vegetable • Fresh Harvest</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-stable">● Stable</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Fatehabad Mandi, Agra
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹20</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Green Cabbage -->
+          <div class="mandi-detail-card" data-crop="green cabbage" data-mandi="sonipat grain & veg mandi" data-category="vegetables" data-price="15">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🥦</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Green Cabbage</h3>
+                    <span class="mandi-crop-category">Vegetable • Compact Head</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-best">▼ Best Value</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Sonipat Grain & Veg Mandi
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹15</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Fresh Cauliflower -->
+          <div class="mandi-detail-card" data-crop="fresh cauliflower" data-mandi="azadpur mandi delhi" data-category="vegetables" data-price="22">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🥬</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Fresh Cauliflower</h3>
+                    <span class="mandi-crop-category">Vegetable • Snowball Type</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-stable">● Stable</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Azadpur Mandi, Delhi
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹22</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Green Chilli G4 -->
+          <div class="mandi-detail-card" data-crop="green chilli g4" data-mandi="lasalgaon apmc nashik" data-category="vegetables" data-price="42">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🌶️</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Green Chilli (G4)</h3>
+                    <span class="mandi-crop-category">Vegetable • High Pungency</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-up">▲ Up ₹4.00</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Lasalgaon APMC, Nashik
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹42</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: Sharbati MP Wheat -->
+          <div class="mandi-detail-card" data-crop="sharbati wheat" data-mandi="fatehabad mandi agra" data-category="grains" data-price="28">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🌾</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Sharbati Wheat</h3>
+                    <span class="mandi-crop-category">Grain • Premium Golden</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-stable">● Stable</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Fatehabad Mandi, Agra
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹28</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8: Shimla Royal Apple -->
+          <div class="mandi-detail-card" data-crop="shimla royal apple" data-mandi="azadpur mandi delhi" data-category="fruits" data-price="85">
+            <div>
+              <div class="mandi-card-top">
+                <div class="mandi-crop-info">
+                  <div class="mandi-crop-emoji">🍎</div>
+                  <div>
+                    <h3 class="mandi-crop-name">Shimla Royal Apple</h3>
+                    <span class="mandi-crop-category">Fruit • Crisp Fresh</span>
+                  </div>
+                </div>
+                <span class="mandi-trend-pill trend-best">▼ Best Value</span>
+              </div>
+              <div class="mandi-location-row">
+                <span>📍</span> Azadpur Mandi, Delhi
+              </div>
+            </div>
+            <div class="mandi-price-row">
+              <span class="mandi-price-label">Wholesale Modal Rate:</span>
+              <div>
+                <span class="mandi-price-amount">₹85</span>
+                <span class="mandi-price-unit">/ kg</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Empty Results Message -->
+        <div class="no-results-box" id="mandi-no-results">
+          <div class="no-results-icon">🔍</div>
+          <h3 class="no-results-title">No matching mandi prices found</h3>
+          <p class="no-results-desc">Try searching for other crops like Tomato, Onion, Potato, Cabbage, or select a different mandi hub.</p>
+        </div>
+
+        <!-- Informational Disclaimer Card -->
+        <div class="feature-disclaimer-card">
+          <span class="disclaimer-icon">ℹ️</span>
+          <div>
+            <strong>Mandi Pricing Disclaimer:</strong>
+            Prices shown are reference prices for demo purposes and may vary by mandi arrival volume, crop grade, humidity, and daily bidding fluctuation. KisanBridge direct trade rates are negotiated directly between farmers and buyers.
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">🌾 Kisan <span class="accent">Bridge</span></a>
+          <p>Connecting Indian farmers directly with commercial buyers and households. Fair pricing, no middlemen, 100% transparent.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="marketplace.html">Produce Marketplace</a></li>
+            <li><a href="mandi-prices.html">Live Mandi Prices</a></li>
+            <li><a href="government-schemes.html">Government Schemes</a></li>
+            <li><a href="crop-advisory.html">Crop Advisory</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="farmer-register.html">Farmer Registration</a></li>
+            <li><a href="buyer-category.html">Buyer Onboarding</a></li>
+            <li><a href="customer-dashboard.html">Buyer Portal</a></li>
+            <li><a href="farmer-dashboard.html">Farmer Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Kisan Helpline</h4>
+          <p style="color: #D1D5DB; font-size: 0.9rem; margin-bottom: 12px;">Toll-free 24x7 support for Indian farmers:</p>
+          <a href="tel:18001801551" class="helpline-btn" style="display: inline-block; background: #15803D; color: #FFFFFF; padding: 8px 16px; border-radius: 9999px; text-decoration: none; font-weight: 700;">📞 1800-180-1551</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 KisanBridge. Direct Farm-to-Buyer Digital Marketplace.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/feature-pages.js"></script>
+</body>
+</html>

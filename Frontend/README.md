@@ -45,6 +45,9 @@
 KisanBridge/
 │
 ├── index.html                     # Homepage (Hero, Mandi Prices, Schemes, Crops, Role Selection)
+├── mandi-prices.html              # Dedicated Mandi Prices with APMC search, location filter, & price sort
+├── government-schemes.html        # Dedicated Government Schemes with accordion details & criteria
+├── crop-advisory.html             # Dedicated Crop Advisory with demand filter & LocalStorage crop plan
 ├── farmer-register.html           # 4-Step Registration Wizard with Voice Mic & KYC
 ├── buyer-category.html            # Category selection (Family, Business, Hostel, Event)
 ├── buyer-family-register.html     # Household / Family Onboarding
@@ -58,9 +61,11 @@ KisanBridge/
 ├── checkout.html                  # Multi-step checkout with Leaflet.js map & GPS distance fee
 │
 ├── css/
-│   ├── global.css                 # CSS reset, variables, typography, animations, smooth scroll
-│   ├── navbar.css                 # Sticky navbar, cart badge & mobile hamburger menu
-│   ├── hero.css                   # Hero section gradient, stats counter & visual cards
+│   ├── global.css                 # CSS reset, variables, Poppins typography, animations, smooth scroll
+│   ├── navbar.css                 # Sticky navbar, logo branding, links (15.2px, #4a4a68), mobile drawer
+│   ├── hero.css                   # Hero section gradient, stats counter & phone mockup
+│   ├── home.css                   # Compact feature preview cards & profile selection layout
+│   ├── feature-pages.css          # Dedicated styling for Mandi, Schemes, and Crop Advisory pages
 │   ├── cards.css                  # Product, mandi, scheme, seasonal & role select cards
 │   ├── forms.css                  # Form fields, progress bar wizard, dropzones & mic buttons
 │   ├── dashboard.css              # Layout for farmer and customer dashboards
@@ -68,7 +73,9 @@ KisanBridge/
 │   └── responsive.css             # Mobile-first breakpoints (320px, 480px, 768px, 1024px+)
 │
 ├── js/
-│   ├── main.js                    # Core utilities, toast notifications & dataset loader
+│   ├── main.js                    # Core utilities, toast notifications & fallback datasets
+│   ├── home.js                    # Homepage preview cards navigation & scroll reveal animations
+│   ├── feature-pages.js           # Mandi filters/sort, Scheme accordions, and Crop plan persistence
 │   ├── voice-assistant.js         # Web Speech API Hindi/English recognition & speech synthesis
 │   ├── image-enhancer.js          # AI crop image enhancement filters (brightness/contrast)
 │   ├── price-calculator.js        # Transparent price breakdown & distance delivery engine

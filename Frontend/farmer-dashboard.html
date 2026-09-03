@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farmer Portal Dashboard (किसान डैशबोर्ड) - KisanBridge</title>
   
+  <!-- Early Gate Check: Protect Farmer Dashboard from unauthorized visitors and buyers -->
+  <script>
+    (function() {
+      try {
+        var userStr = localStorage.getItem("currentUser");
+        var user = userStr ? JSON.parse(userStr) : null;
+        if (!user || user.role !== "farmer" || user.registered !== true) {
+          var currentPage = window.location.pathname.split("/").pop() || "farmer-dashboard.html";
+          localStorage.setItem("redirectAfterFarmerRegistration", currentPage);
+          document.documentElement.style.display = "none";
+          window.location.replace("farmer-register.html");
+        }
+      } catch (e) {
+        document.documentElement.style.display = "none";
+        window.location.replace("farmer-register.html");
+      }
+    })();
+  </script>
+
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/dashboard.css">
@@ -16,23 +35,40 @@
 
   <!-- Sticky Navbar -->
   <header class="site-header">
-    <div class="navbar-container">
-      <a href="index.html" class="nav-logo">
+    <div class="navbar-container" id="navbarContainer">
+      <a href="index.html" class="nav-logo" aria-label="KisanBridge Home">
         <span class="logo-icon">🌾</span>
         <span>Kisan<span class="accent">Bridge</span></span>
       </a>
 
-      <ul class="nav-menu">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
-        <li><a href="farmer-dashboard.html" class="nav-link active">Farmer Portal</a></li>
-        <li><a href="customer-dashboard.html" class="nav-link">Buyer Portal</a></li>
-      </ul>
+      <nav class="nav-center-wrapper desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-menu nav-links nav-center-links">
+          <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+          <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+          <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+          <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+        </ul>
+      </nav>
 
-      <div class="nav-actions">
-        <span class="badge badge-green" style="font-size: 0.85rem; padding: 6px 12px;">✅ KYC Verified Farmer</span>
-        <a href="index.html" class="btn btn-outline-green btn-sm">Logout</a>
+      <div class="navbar-right-group desktop-nav">
+        <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+        <div class="language-selector">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <select id="languageSelect" class="language-select" aria-label="Select language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+            <option value="mr">मराठी</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
       </div>
+
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
@@ -236,6 +272,9 @@
   <script src="js/dashboard.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      if (typeof requireFarmerAccess === 'function') {
+        if (!requireFarmerAccess()) return;
+      }
       DashboardController.initFarmer();
       ImageEnhancer.init('crop-photo-preview', 'btn-ai-enhance-crop', 'crop-photo-file');
     });

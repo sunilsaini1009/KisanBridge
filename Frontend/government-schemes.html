@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Schemes for Farmers - Subsidies & Credit Support | KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/feature-pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container" id="navbarContainer">
+      <a href="index.html" class="nav-logo" aria-label="KisanBridge Home">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <nav class="nav-center-wrapper desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-menu nav-links nav-center-links">
+          <li><a href="index.html" class="nav-link" data-nav="home">Home</a></li>
+          <li><a href="marketplace.html" class="nav-link" data-nav="marketplace">Marketplace</a></li>
+          <li><a href="farmer-register.html" class="nav-link" data-nav="farmer">Farmer</a></li>
+          <li><a href="buyer-category.html" class="nav-link" data-nav="buyer">Buyer</a></li>
+        </ul>
+      </nav>
+
+      <div class="navbar-right-group desktop-nav">
+        <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+        <div class="language-selector">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <select id="languageSelect" class="language-select" aria-label="Select language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+            <option value="mr">मराठी</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="feature-page-header">
+      <div class="container">
+        <div class="header-nav-strip">
+          <a href="index.html" class="btn-back-home" aria-label="Back to Homepage">
+            <span>←</span> Back to Home
+          </a>
+          <span class="last-updated-pill">🏛️ MoA&FW Central Government Initiatives</span>
+        </div>
+
+        <div class="page-title-wrapper">
+          <div class="feature-page-badge badge-purple">
+            <span>🏛️</span> SARKAR KI YOJNAYEIN
+          </div>
+          <h1 class="feature-page-title">Government Schemes for Farmers</h1>
+          <p class="feature-page-desc">
+            Direct income support, low-interest working credit, and institutional grants empowering Indian farmers and Farmer Producer Organizations (FPOs).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls & Content Section -->
+    <section class="feature-content-section">
+      <div class="container">
+        
+        <!-- Controls Toolbar -->
+        <div class="feature-controls-bar">
+          <div class="search-box-wrapper" style="flex: 1 1 350px;">
+            <span class="search-icon-inside">🔍</span>
+            <input 
+              type="text" 
+              id="schemes-search-input" 
+              class="feature-search-input" 
+              placeholder="Search scheme name, subsidy, or eligibility..." 
+              aria-label="Search government schemes"
+            >
+          </div>
+
+          <div style="font-size: 0.88rem; color: var(--text-light); font-weight: 600;">
+            Click <strong>"Learn More"</strong> on any scheme to expand full eligibility guidelines.
+          </div>
+        </div>
+
+        <!-- Detailed Schemes Cards Grid -->
+        <div class="schemes-cards-grid" id="schemes-cards-grid">
+          
+          <!-- Scheme 1: PM-Kisan -->
+          <div class="scheme-detail-card">
+            <div class="scheme-top-header">
+              <div class="scheme-icon-box">💰</div>
+              <div>
+                <h2 class="scheme-title-text">PM-Kisan Samman Nidhi</h2>
+                <span class="scheme-benefit-badge">₹6,000 / Year Direct Cash Benefit</span>
+              </div>
+            </div>
+
+            <p class="scheme-desc-text">
+              Direct income support transferred electronically into Aadhaar-linked bank accounts in three equal installments of ₹2,000 every 4 months to assist with farm input expenses.
+            </p>
+
+            <div class="scheme-eligibility-box">
+              <div class="scheme-eligibility-title">
+                <span>📋</span> Eligibility Criteria
+              </div>
+              <p class="scheme-eligibility-desc">
+                Small and marginal landholder farmer families with cultivable land up to 2 hectares in their name. Must have an active Aadhaar card and seeded bank account.
+              </p>
+            </div>
+
+            <button class="scheme-accordion-toggle" aria-expanded="false" aria-label="Toggle details for PM-Kisan">
+              <span>Learn More</span> <span class="arrow-indicator">▼</span>
+            </button>
+
+            <!-- Expandable Content -->
+            <div class="scheme-expanded-content">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--text-dark);">Required Documents & Process:</h4>
+              <ul class="scheme-expanded-list">
+                <li>Aadhaar Card with mobile number linked for OTP verification</li>
+                <li>Landholding document / Jamabandi / Khatauni certificate</li>
+                <li>Bank passbook showing IFSC code and active account status</li>
+                <li>Online e-KYC authentication via biometric or OTP</li>
+              </ul>
+              <div style="margin-top: 10px;">
+                <a href="https://pmkisan.gov.in/" target="_blank" rel="noopener noreferrer" class="scheme-official-btn">
+                  🌐 Visit Official PM-Kisan Portal (pmkisan.gov.in) →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scheme 2: Kisan Credit Card -->
+          <div class="scheme-detail-card">
+            <div class="scheme-top-header">
+              <div class="scheme-icon-box" style="background: #EBF3FE;">🏦</div>
+              <div>
+                <h2 class="scheme-title-text">Kisan Credit Card (KCC)</h2>
+                <span class="scheme-benefit-badge" style="background: #EBF3FE; color: #1E429F; border-color: #BFDBFE;">
+                  Credit up to ₹3,00,000 @ 4% Interest
+                </span>
+              </div>
+            </div>
+
+            <p class="scheme-desc-text">
+              Institutional credit facility enabling farmers to purchase seeds, fertilizers, pesticides, machinery fuel, and manage post-harvest cash flow without paying high private moneylender rates.
+            </p>
+
+            <div class="scheme-eligibility-box">
+              <div class="scheme-eligibility-title">
+                <span>📋</span> Eligibility Criteria
+              </div>
+              <p class="scheme-eligibility-desc">
+                All farmers including individual owner-cultivators, tenant farmers, oral lessees, sharecroppers, and members of Joint Liability Groups (JLGs) or Self-Help Groups (SHGs).
+              </p>
+            </div>
+
+            <button class="scheme-accordion-toggle" aria-expanded="false" aria-label="Toggle details for Kisan Credit Card">
+              <span>Learn More</span> <span class="arrow-indicator">▼</span>
+            </button>
+
+            <!-- Expandable Content -->
+            <div class="scheme-expanded-content">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--text-dark);">Key Loan Terms & Highlights:</h4>
+              <ul class="scheme-expanded-list">
+                <li>Collateral-free loan limit up to ₹1,60,000</li>
+                <li>Subsidized interest rate: 7% base interest with 3% prompt repayment incentive = 4% net interest</li>
+                <li>Built-in crop insurance coverage under PM Fasal Bima Yojana</li>
+                <li>Simple one-page application process via local commercial or cooperative banks</li>
+              </ul>
+              <div style="margin-top: 10px;">
+                <a href="https://www.myscheme.gov.in/schemes/kcc" target="_blank" rel="noopener noreferrer" class="scheme-official-btn">
+                  🌐 View KCC Scheme Guidelines on MyScheme.gov.in →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scheme 3: FPO Scheme -->
+          <div class="scheme-detail-card">
+            <div class="scheme-top-header">
+              <div class="scheme-icon-box" style="background: #FFF3EB;">🤝</div>
+              <div>
+                <h2 class="scheme-title-text">FPO Formation & Promotion</h2>
+                <span class="scheme-benefit-badge" style="background: #FFF3EB; color: #9A3412; border-color: #FED7AA;">
+                  Support up to ₹18 Lakh per FPO
+                </span>
+              </div>
+            </div>
+
+            <p class="scheme-desc-text">
+              National flagship mission to form 10,000 new Farmer Producer Organizations (FPOs) to pool smallholder harvests, achieve bulk scale economies, and sell directly to commercial supermarkets.
+            </p>
+
+            <div class="scheme-eligibility-box">
+              <div class="scheme-eligibility-title">
+                <span>📋</span> Eligibility Criteria
+              </div>
+              <p class="scheme-eligibility-desc">
+                Minimum 300 member farmers in plains or 100 farmers in hilly and North-Eastern regions registered under Companies Act or Cooperative Societies Act.
+              </p>
+            </div>
+
+            <button class="scheme-accordion-toggle" aria-expanded="false" aria-label="Toggle details for FPO Scheme">
+              <span>Learn More</span> <span class="arrow-indicator">▼</span>
+            </button>
+
+            <!-- Expandable Content -->
+            <div class="scheme-expanded-content">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--text-dark);">Financial & Incubation Assistance:</h4>
+              <ul class="scheme-expanded-list">
+                <li>Direct management grant of up to ₹18 Lakhs over 3 years per FPO</li>
+                <li>Equity grant matching of up to ₹2,000 per farmer member (Max ₹15 Lakhs per FPO)</li>
+                <li>Credit Guarantee Facility cover up to ₹2 Crores with NABARD / NCDC</li>
+                <li>Dedicated handholding from Cluster-Based Business Organizations (CBBOs)</li>
+              </ul>
+              <div style="margin-top: 10px;">
+                <a href="https://enam.gov.in/web/fpo" target="_blank" rel="noopener noreferrer" class="scheme-official-btn">
+                  🌐 Learn About FPO Integration on e-NAM Portal →
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Empty Results Message -->
+        <div class="no-results-box" id="schemes-no-results">
+          <div class="no-results-icon">🏛️</div>
+          <h3 class="no-results-title">No matching government schemes found</h3>
+          <p class="no-results-desc">Try searching with terms like "PM-Kisan", "Credit Card", "FPO", "subsidy", or "loan".</p>
+        </div>
+
+        <!-- Informational Disclaimer Card -->
+        <div class="feature-disclaimer-card">
+          <span class="disclaimer-icon">ℹ️</span>
+          <div>
+            <strong>Official Information Disclaimer:</strong>
+            All scheme descriptions and parameters are presented for educational reference based on published guidelines from the Ministry of Agriculture & Farmers Welfare. KisanBridge does not disburse government subsidies directly. Farmers are encouraged to consult nearest Krishi Vigyan Kendras (KVK) or Common Service Centers (CSC) for official application processing.
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">🌾 Kisan <span class="accent">Bridge</span></a>
+          <p>Connecting Indian farmers directly with commercial buyers and households. Fair pricing, no middlemen, 100% transparent.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="marketplace.html">Produce Marketplace</a></li>
+            <li><a href="mandi-prices.html">Live Mandi Prices</a></li>
+            <li><a href="government-schemes.html">Government Schemes</a></li>
+            <li><a href="crop-advisory.html">Crop Advisory</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="farmer-register.html">Farmer Registration</a></li>
+            <li><a href="buyer-category.html">Buyer Onboarding</a></li>
+            <li><a href="customer-dashboard.html">Buyer Portal</a></li>
+            <li><a href="farmer-dashboard.html">Farmer Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Kisan Helpline</h4>
+          <p style="color: #D1D5DB; font-size: 0.9rem; margin-bottom: 12px;">Toll-free 24x7 support for Indian farmers:</p>
+          <a href="tel:18001801551" class="helpline-btn" style="display: inline-block; background: #15803D; color: #FFFFFF; padding: 8px 16px; border-radius: 9999px; text-decoration: none; font-weight: 700;">📞 1800-180-1551</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 KisanBridge. Direct Farm-to-Buyer Digital Marketplace.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/feature-pages.js"></script>
+</body>
+</html>

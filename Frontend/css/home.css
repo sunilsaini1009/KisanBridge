@@ -1,0 +1,441 @@
+/* ==========================================================================
+   KISANBRIDGE - HOMEPAGE FEATURE CARDS & PREVIEW GRID STYLES
+   ========================================================================== */
+
+/* --- Feature Preview Section --- */
+.home-features-section {
+  padding: 64px 0 72px 0;
+  background-color: var(--bg-cream);
+  position: relative;
+}
+
+.home-section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 48px auto;
+}
+
+.home-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #E8F5E9;
+  color: var(--primary-green);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.5vw, 2.35rem);
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+.home-section-desc {
+  font-size: 1.025rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --- 3 Feature Preview Cards Grid --- */
+.feature-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* Base Feature Card */
+.feature-preview-card {
+  background: var(--bg-white);
+  border-radius: 20px;
+  border: 1.5px solid rgba(46, 125, 50, 0.16);
+  padding: 30px 24px 26px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease;
+}
+
+/* Purple accent variant for Schemes card */
+.feature-preview-card.card-accent-purple {
+  border-color: rgba(102, 126, 234, 0.22);
+}
+
+/* Hover Lift & Glow Animations */
+.feature-preview-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(46, 125, 50, 0.14);
+  border-color: var(--primary-green);
+}
+
+.feature-preview-card.card-accent-purple:hover {
+  box-shadow: 0 16px 36px rgba(102, 126, 234, 0.16);
+  border-color: var(--purple);
+}
+
+/* Top Card Header */
+.card-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--primary-green);
+  background: #E8F5E9;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+
+.feature-preview-card.card-accent-purple .card-header-badge {
+  color: var(--purple-dark);
+  background: var(--purple-light);
+}
+
+.card-title-group {
+  margin-bottom: 14px;
+}
+
+.card-main-heading {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.card-short-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+/* Inner Compact Preview List */
+.preview-items-list {
+  background: var(--bg-subtle);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-light);
+}
+
+.preview-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.06);
+}
+
+.preview-item-row:last-child {
+  border-bottom: none;
+}
+
+.preview-item-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.preview-item-name .item-emoji {
+  font-size: 1.15rem;
+}
+
+.preview-item-value {
+  font-weight: 700;
+  color: #1E7B44;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* Location / Extra Note inside preview */
+.preview-locations-strip {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  line-height: 1.45;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.preview-locations-strip strong {
+  color: var(--text-muted);
+}
+
+/* Card Action Button */
+.card-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
+  transition: all var(--transition-fast);
+  margin-top: auto;
+  text-decoration: none;
+}
+
+.btn-card-green {
+  background: var(--primary-green);
+  color: #FFFFFF;
+}
+
+.feature-preview-card:hover .btn-card-green {
+  background: var(--primary-green-dark);
+  transform: translateX(2px);
+}
+
+.btn-card-purple {
+  background: var(--purple);
+  color: #FFFFFF;
+}
+
+.feature-preview-card.card-accent-purple:hover .btn-card-purple {
+  background: var(--purple-dark);
+  transform: translateX(2px);
+}
+
+.card-action-btn .btn-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.feature-preview-card:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* --- Profile Selection Section (Join KisanBridge) --- */
+.profile-selection-section {
+  padding: 60px 0 76px 0;
+  background-color: var(--bg-white);
+  border-top: 1px solid var(--border-light);
+}
+
+.profile-section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 44px auto;
+}
+
+.profile-tag {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #EA580C;
+  background: #FFF3EB;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 12px;
+}
+
+.profile-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.profile-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Profile Selection Grid */
+.profile-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.profile-choice-card {
+  background: var(--bg-cream);
+  border: 1.5px solid #E5E7EB;
+  border-radius: 20px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.profile-choice-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-green);
+  background: #FFFFFF;
+}
+
+.profile-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.profile-choice-card:hover .profile-icon-circle {
+  transform: scale(1.1);
+}
+
+.profile-card-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.profile-card-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 22px;
+  flex-grow: 1;
+}
+
+.profile-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  background: #FFFFFF;
+  color: var(--primary-green);
+  border: 1.5px solid var(--primary-green);
+  transition: all var(--transition-fast);
+}
+
+.profile-choice-card:hover .profile-card-btn {
+  background: var(--primary-green);
+  color: #FFFFFF;
+}
+
+/* Card variant 2: Family */
+.profile-choice-card.card-family:hover {
+  border-color: var(--purple);
+}
+.profile-choice-card.card-family .profile-card-btn {
+  color: var(--purple-dark);
+  border-color: var(--purple);
+}
+.profile-choice-card.card-family:hover .profile-card-btn {
+  background: var(--purple);
+  color: #FFFFFF;
+}
+
+/* Card variant 3: Business */
+.profile-choice-card.card-business:hover {
+  border-color: #EA580C;
+}
+.profile-choice-card.card-business .profile-card-btn {
+  color: #EA580C;
+  border-color: #EA580C;
+}
+.profile-choice-card.card-business:hover .profile-card-btn {
+  background: #EA580C;
+  color: #FFFFFF;
+}
+
+/* Scroll reveal animation */
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-fade.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Responsive Breakpoints --- */
+@media (max-width: 1024px) {
+  .feature-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .profile-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-features-section {
+    padding: 44px 0 54px 0;
+  }
+
+  .feature-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .profile-selection-section {
+    padding: 44px 0 56px 0;
+  }
+
+  .profile-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .feature-preview-card {
+    padding: 24px 20px;
+  }
+}

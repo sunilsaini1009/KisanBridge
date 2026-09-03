@@ -36,10 +36,17 @@ const BuyerFormController = {
     LocalStorageManager.save('kisan_buyer_user', buyerProfile);
     LocalStorageManager.save('kisan_user_role', 'buyer');
 
+    localStorage.setItem("currentUser", JSON.stringify({
+      name: name,
+      role: "buyer",
+      buyerCategory: categoryType,
+      registered: true
+    }));
+
     showToast("🎉 Welcome to KisanBridge! Onboarding Complete.", "success", 2000);
 
     setTimeout(() => {
-      window.location.href = 'marketplace.html';
+      window.location.href = 'customer-dashboard.html';
     }, 1500);
   }
 };
