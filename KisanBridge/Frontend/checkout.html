@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout & Map Delivery - KisanBridge</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Leaflet.js CDN for Map Integration (Essential Requirement) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    #delivery-map {
+      height: 300px;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border-light);
+      margin-top: 12px;
+      margin-bottom: 12px;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="cart.html" class="nav-link">Cart</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <span class="badge badge-green">🔒 256-bit Secure Checkout</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding-sm">
+    <div class="container">
+      
+      <div style="margin-bottom: 24px;">
+        <h1>Direct Farm Delivery Checkout 🚚</h1>
+        <p style="color: var(--text-light);">Pin your exact location on the map to calculate real farm-to-door distance and delivery fee.</p>
+      </div>
+
+      <form id="checkout-form" onsubmit="event.preventDefault(); placeOrder();">
+        <div class="grid" style="grid-template-columns: 1.7fr 1.3fr; gap: 32px; align-items: start;">
+          
+          <!-- Left Column: Address & Map Integration -->
+          <div>
+            <!-- 1. Contact & Address -->
+            <div class="card" style="margin-bottom: 24px;">
+              <h3 style="margin-bottom: 18px; color: var(--primary-green-dark);">1. Delivery Information</h3>
+              
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="checkoutName">Recipient Name *</label>
+                  <input type="text" class="form-control" id="checkoutName" value="Priya Sharma" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutPhone">Mobile Number *</label>
+                  <input type="tel" class="form-control" id="checkoutPhone" value="9812345678" maxlength="10" required>
+                </div>
+
+                <div class="form-group col-span-2">
+                  <label class="form-label" for="checkoutAddress">Street Address / House No. *</label>
+                  <input type="text" class="form-control" id="checkoutAddress" value="Flat 402, Palm Grove Heights, Sector 56" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutCity">City *</label>
+                  <input type="text" class="form-control" id="checkoutCity" value="Gurugram" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutPincode">Pincode *</label>
+                  <input type="text" class="form-control" id="checkoutPincode" value="122011" maxlength="6" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Interactive Leaflet Map & GPS Distance -->
+            <div class="card" style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h3 style="color: var(--primary-green-dark);">2. Pin Point Exact Delivery Location on Map</h3>
+                <button type="button" id="btn-detect-gps" class="btn btn-outline-green btn-sm">
+                  📍 Auto-Detect Live GPS
+                </button>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 4px;">Drag the blue marker or click anywhere on map to pinpoint your gate/building.</p>
+              
+              <!-- Leaflet Map Container -->
+              <div id="delivery-map"></div>
+
+              <!-- Distance & Delivery Surcharge Calculator Pill -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: var(--light-green); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-green);">
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--primary-green-dark); font-weight: 700; text-transform: uppercase;">Direct Farm Distance:</div>
+                  <strong style="font-size: 1.25rem; color: var(--primary-green);" id="delivery-distance-display">15.0 km</strong>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.8rem; color: var(--primary-green-dark); font-weight: 700; text-transform: uppercase;">Logistics Charge:</div>
+                  <strong style="font-size: 1.25rem; color: var(--primary-green);" id="delivery-charge-display">₹60 (₹4/km)</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Payment Method -->
+            <div class="card">
+              <h3 style="margin-bottom: 18px; color: var(--primary-green-dark);">3. Payment Method</h3>
+
+              <div class="radio-cards-group">
+                <label class="radio-card-label">
+                  <input type="radio" name="paymentMethod" value="UPI" class="radio-card-input" checked>
+                  <div>
+                    <div style="font-weight: 700;">📱 UPI (GPay, PhonePe, Paytm)</div>
+                    <span style="font-size: 0.8rem; color: var(--text-light);">Zero transaction fee</span>
+                  </div>
+                </label>
+
+                <label class="radio-card-label">
+                  <input type="radio" name="paymentMethod" value="Card" class="radio-card-input">
+                  <div>
+                    <div style="font-weight: 700;">💳 Credit / Debit Card</div>
+                    <span style="font-size: 0.8rem; color: var(--text-light);">Visa, Mastercard, RuPay</span>
+                  </div>
+                </label>
+
+                <label class="radio-card-label" style="grid-column: span 2;">
+                  <input type="radio" name="paymentMethod" value="COD" class="radio-card-input">
+                  <div>
+                    <div style="font-weight: 700;">💵 Cash on Farm Delivery (COD)</div>
+                    <span style="font-size: 0.8rem; color: var(--text-light);">Inspect fresh harvest quality first, pay at doorstep</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Final Price Breakdown & Order Trigger -->
+          <div class="card" style="position: sticky; top: 96px;">
+            <h3 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+              Final Bill Breakdown
+            </h3>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>Harvest Subtotal:</span>
+                <strong id="checkout-subtotal">₹0</strong>
+              </div>
+
+              <div style="display: flex; justify-content: space-between;">
+                <span>Calculated Distance Delivery:</span>
+                <span id="checkout-delivery-fee">₹60</span>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; color: var(--primary-green);">
+                <span>Direct Bridge Discount (5%):</span>
+                <strong id="checkout-discount">- ₹0</strong>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; border-top: 2px solid var(--border-light); padding-top: 16px; font-size: 1.4rem; font-weight: 800; color: var(--primary-green-dark);">
+                <span>Total Payable:</span>
+                <span id="checkout-grand-total">₹0</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 28px;">
+              <button type="submit" class="btn btn-green btn-full btn-lg">
+                🚀 Place Direct Farm Order
+              </button>
+            </div>
+
+            <div style="margin-top: 16px; text-align: center; font-size: 0.8rem; color: var(--text-light);">
+              🌱 Funds protected in Kisan Escrow until quality delivery confirmed.
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge • Farm to Kitchen Logistics</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/price-calculator.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/map-integration.js"></script>
+
+  <script>
+    let currentDeliveryCharge = 60;
+
+    function updateCheckoutSummaryWithDistance(deliveryCost) {
+      currentDeliveryCharge = deliveryCost;
+      const subtotal = Cart.getSubtotal();
+      const discount = Math.round(subtotal * 0.05);
+      const grandTotal = subtotal + currentDeliveryCharge - discount;
+
+      const subtotalEl = document.getElementById('checkout-subtotal');
+      const deliveryEl = document.getElementById('checkout-delivery-fee');
+      const discountEl = document.getElementById('checkout-discount');
+      const grandTotalEl = document.getElementById('checkout-grand-total');
+
+      if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal);
+      if (deliveryEl) deliveryEl.textContent = formatCurrency(currentDeliveryCharge);
+      if (discountEl) discountEl.textContent = `- ${formatCurrency(discount)}`;
+      if (grandTotalEl) grandTotalEl.textContent = formatCurrency(grandTotal);
+    }
+
+    function placeOrder() {
+      const cart = Cart.getCart();
+      if (cart.length === 0) {
+        showToast("Cart is empty! Add products before checkout.", "error");
+        return;
+      }
+
+      const orderId = `KB-${Math.floor(1000 + Math.random() * 9000)}`;
+      const subtotal = Cart.getSubtotal();
+      const discount = Math.round(subtotal * 0.05);
+      const totalAmount = subtotal + currentDeliveryCharge - discount;
+
+      const newOrder = {
+        id: orderId,
+        items: cart.map(i => `${i.image_emoji || '🥬'} ${i.name} (${i.quantity}kg)`).join(', '),
+        farmer: cart[0]?.farmer_name || 'Ramesh Kumar',
+        total: `₹${totalAmount}`,
+        date: formatDate(),
+        status: 'In Transit',
+        address: document.getElementById('checkoutAddress').value
+      };
+
+      // Save to Order History in LocalStorage
+      const existingOrders = LocalStorageManager.load('kisan_orders_history', []);
+      existingOrders.unshift(newOrder);
+      LocalStorageManager.save('kisan_orders_history', existingOrders);
+
+      // Clear Cart
+      Cart.clear();
+
+      showToast(`🎉 Order #${orderId} Placed Successfully! Redirecting to Dashboard...`, "success", 3000);
+
+      setTimeout(() => {
+        window.location.href = 'customer-dashboard.html';
+      }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Leaflet Map
+      MapIntegration.init('delivery-map');
+
+      // Populate Checkout figures
+      updateCheckoutSummaryWithDistance(60);
+    });
+  </script>
+</body>
+</html>

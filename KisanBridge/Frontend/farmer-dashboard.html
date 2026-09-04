@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Portal Dashboard (किसान डैशबोर्ड) - KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="farmer-dashboard.html" class="nav-link active">Farmer Portal</a></li>
+        <li><a href="customer-dashboard.html" class="nav-link">Buyer Portal</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <span class="badge badge-green" style="font-size: 0.85rem; padding: 6px 12px;">✅ KYC Verified Farmer</span>
+        <a href="index.html" class="btn btn-outline-green btn-sm">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-layout">
+    <div class="container">
+
+      <!-- 1. Welcome Card (Purple / Green Gradient) -->
+      <div class="dash-welcome-card farmer-theme">
+        <div class="dash-welcome-header">
+          <div>
+            <span class="badge" style="background: rgba(255,255,255,0.25); color: white; margin-bottom: 8px;">Kisan ID: KB-FARM-9021</span>
+            <h1 class="dash-welcome-title" id="farmer-display-name">नमस्ते, राम सिंह (Ram Singh)</h1>
+            <div class="dash-welcome-location" id="farmer-display-location">
+              📍 Dhanwapur, Gurugram (Haryana) • 4.5 Acres Cultivated
+            </div>
+            
+            <div class="dash-mandi-ticker">
+              <span>📢 Live Mandi Ticker:</span>
+              <span>Tomato ₹18/kg</span> • <span>Onion ₹12/kg</span> • <span>Potato ₹14/kg</span>
+            </div>
+          </div>
+
+          <button class="btn btn-white btn-lg" onclick="document.getElementById('add-crop-modal').style.display='flex'">
+            + 📷 List New Crop
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Quick Actions Grid (5 Buttons Grid) -->
+      <div class="quick-actions-grid">
+        <a href="#add-crop-modal" class="quick-action-card" onclick="document.getElementById('add-crop-modal').style.display='flex'">
+          <div class="action-icon">📷</div>
+          <div class="action-label">Add Crop</div>
+        </a>
+        <a href="#listings" class="quick-action-card">
+          <div class="action-icon">📦</div>
+          <div class="action-label">My Orders</div>
+        </a>
+        <a href="index.html#mandi" class="quick-action-card">
+          <div class="action-icon">💰</div>
+          <div class="action-label">View Prices</div>
+        </a>
+        <a href="#calendar" class="quick-action-card" onclick="showToast('Sowing & Harvest Calendar synced with Agromet weather advisory', 'info')">
+          <div class="action-icon">📅</div>
+          <div class="action-label">Calendar</div>
+        </a>
+        <a href="#earnings" class="quick-action-card">
+          <div class="action-icon">💳</div>
+          <div class="action-label">Payments</div>
+        </a>
+      </div>
+
+      <!-- 3. Key Metrics & Recent Earnings -->
+      <div class="stats-metrics-grid" id="earnings">
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">Total Monthly Earnings</div>
+            <div class="metric-value earnings-green">₹12,450</div>
+            <div class="metric-trend up">▲ +38% vs Mandi middlemen</div>
+          </div>
+          <div style="font-size: 2.2rem; background: var(--light-green); width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            💵
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">Active Listed Harvest</div>
+            <div class="metric-value">1,950 <span style="font-size: 1rem; font-weight: 500; color: var(--text-light);">kg</span></div>
+            <div class="metric-trend up">● 3 Crops Listed</div>
+          </div>
+          <div style="font-size: 2.2rem; background: var(--purple-light); width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            🥦
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">Direct Consumer Orders</div>
+            <div class="metric-value">48</div>
+            <div class="metric-trend up">▲ 12 pending dispatch</div>
+          </div>
+          <div style="font-size: 2.2rem; background: var(--bg-slate); width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            🚚
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">Buyer Rating</div>
+            <div class="metric-value">4.9 <span style="font-size: 1.2rem; color: #F59E0B;">★</span></div>
+            <div class="metric-trend up">Top Rated Seller</div>
+          </div>
+          <div style="font-size: 2.2rem; background: var(--warning-bg); width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            ⭐
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. My Listings Section (Table with Actions) -->
+      <div class="dashboard-section-header" id="listings">
+        <div>
+          <h2>🌾 My Active Produce Listings</h2>
+          <p style="color: var(--text-light);">Manage current crop inventory, pause listings, or adjust direct farm pricing.</p>
+        </div>
+        <button class="btn btn-green btn-sm" onclick="document.getElementById('add-crop-modal').style.display='flex'">
+          + Add New Harvest
+        </button>
+      </div>
+
+      <div class="dashboard-table-card">
+        <div class="table-responsive">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>Crop Name</th>
+                <th>Quantity</th>
+                <th>Your Direct Price</th>
+                <th>Mandi Benchmark</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="farmer-listings-table-body">
+              <!-- Rendered dynamically by js/dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Add Crop Modal Dialog with AI Image Enhancer -->
+  <div id="add-crop-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div class="card" style="max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; background: var(--bg-white);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="color: var(--primary-green-dark);">📷 List New Crop for Direct Sale</h3>
+        <button type="button" onclick="document.getElementById('add-crop-modal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="add-crop-modal-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="newCropName">Crop Name *</label>
+            <input type="text" class="form-control" id="newCropName" placeholder="e.g. Fresh Red Carrot" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newCropEmoji">Icon / Emoji</label>
+            <select class="form-control" id="newCropEmoji">
+              <option value="🥕">🥕 Carrot</option>
+              <option value="🍅">🍅 Tomato</option>
+              <option value="🥔">🥔 Potato</option>
+              <option value="🧅">🧅 Onion</option>
+              <option value="🥦">🥦 Cabbage</option>
+              <option value="🥒">🥒 Cucumber</option>
+              <option value="🍎">🍎 Apple</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newCropQuantity">Available Quantity (Kg) *</label>
+            <input type="number" class="form-control" id="newCropQuantity" placeholder="e.g. 500" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newCropPrice">Direct Price (₹ / kg) *</label>
+            <input type="number" class="form-control" id="newCropPrice" placeholder="e.g. 24" required>
+          </div>
+
+          <!-- AI Crop Photo Upload & Enhancement Feature -->
+          <div class="form-group col-span-2">
+            <label class="form-label">Crop Photo (AI Image Clarity Booster)</label>
+            <div class="upload-dropzone" style="padding: 16px;">
+              <input type="file" id="crop-photo-file" accept="image/*" style="display: block; margin: 0 auto 10px auto;">
+              <img id="crop-photo-preview" src="" alt="Crop Preview" style="display: none; max-height: 140px; margin: 10px auto; border-radius: var(--radius-md);">
+              <button type="button" id="btn-ai-enhance-crop" class="btn btn-outline-green btn-sm" style="margin-top: 8px;">
+                ✨ Enhance Crop Photo with AI
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline-green" onclick="document.getElementById('add-crop-modal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-green">Publish to Marketplace →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge • Farmer Portal</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/image-enhancer.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      DashboardController.initFarmer();
+      ImageEnhancer.init('crop-photo-preview', 'btn-ai-enhance-crop', 'crop-photo-file');
+    });
+  </script>
+</body>
+</html>

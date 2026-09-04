@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="farmer-register.html" class="nav-link">Farmers</a></li>
+        <li><a href="buyer-category.html" class="nav-link">Buyers</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart">
+          🛒
+          <span class="nav-cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding-sm">
+    <div class="container">
+      
+      <div style="margin-bottom: 28px;">
+        <h1>Your Fresh Produce Cart 🛒</h1>
+        <p style="color: var(--text-light);">Direct harvested crops sourced exclusively from regional farming clusters.</p>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1.8fr 1.2fr; gap: 32px; align-items: start;">
+        
+        <!-- Left: Cart Items Container -->
+        <div>
+          <div id="cart-items-container">
+            <!-- Rendered by js/cart.js -->
+          </div>
+
+          <!-- Empty Cart State -->
+          <div id="cart-empty-state" style="display: none; text-align: center; padding: 60px 20px; background: var(--bg-white); border-radius: var(--radius-xl); border: 1px solid var(--border-light);">
+            <div style="font-size: 4rem; margin-bottom: 12px;">🧺</div>
+            <h2>Your cart is empty!</h2>
+            <p style="color: var(--text-light); margin-top: 8px; margin-bottom: 24px;">Explore fresh farm-picked vegetables, fruits, and organic crops.</p>
+            <a href="marketplace.html" class="btn btn-green btn-lg">Browse Marketplace →</a>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <a href="marketplace.html" class="btn btn-outline-green">← Continue Shopping</a>
+            <button type="button" class="btn btn-outline-green" onclick="Cart.clear()" style="color: var(--danger) !important; border-color: var(--danger);">
+              Clear Entire Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Order Summary Card -->
+        <div id="cart-summary-card" class="card" style="position: sticky; top: 96px;">
+          <h3 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+            Order Summary
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Subtotal Produce Cost:</span>
+              <strong id="cart-subtotal">₹0</strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+              <span>Estimated Delivery (Base 15km):</span>
+              <span id="cart-delivery">₹60</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; color: var(--primary-green);">
+              <span>Direct Bridge Discount (5%):</span>
+              <strong id="cart-discount">- ₹0</strong>
+            </div>
+
+            <div style="margin: 12px 0; padding: 12px; background: var(--bg-slate); border-radius: var(--radius-md); font-size: 0.85rem; color: var(--text-muted);">
+              🛡️ <strong>Direct Farmer Payout:</strong> 72% goes immediately to the farmer upon harvest dispatch.
+            </div>
+
+            <div style="display: flex; justify-content: space-between; border-top: 2px solid var(--border-light); padding-top: 16px; font-size: 1.35rem; font-weight: 800; color: var(--primary-green-dark);">
+              <span>Grand Total:</span>
+              <span id="cart-total">₹0</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <a href="checkout.html" class="btn btn-green btn-full btn-lg">
+              Proceed to Checkout & Map →
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

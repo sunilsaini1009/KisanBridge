@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Buyer Category - KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+        <li><a href="farmer-register.html" class="nav-link">Farmers</a></li>
+        <li><a href="buyer-category.html" class="nav-link active">Buyers</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart">
+          🛒
+          <span class="nav-cart-badge">0</span>
+        </a>
+        <a href="customer-dashboard.html" class="btn btn-purple btn-sm">Buyer Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" style="background-color: var(--purple-light); color: var(--purple-dark);">Direct Farm Procurement</span>
+        <h1 class="section-title">🛒 Select Your Category</h1>
+        <p class="section-subtitle">Whether you are feeding a family or managing commercial kitchen supply chains, we provide tailored pricing and logistics.</p>
+      </div>
+
+      <div class="grid grid-3" style="max-width: 1050px; margin: 0 auto; gap: 30px;">
+        
+        <!-- Category 1: Family/Household -->
+        <a href="buyer-family-register.html" class="role-select-card">
+          <div class="role-icon-circle">🏠</div>
+          <h3 class="role-title">Family / Household</h3>
+          <p class="role-desc">Small quantities for home kitchen. Enjoy weekly doorstep farm baskets and chemical-free fruits & vegetables.</p>
+          <span class="btn btn-purple btn-full">Join as Household →</span>
+        </a>
+
+        <!-- Category 2: Hotel/Restaurant/Canteen -->
+        <a href="buyer-business-register.html?type=hotel" class="role-select-card">
+          <div class="role-icon-circle">🏨</div>
+          <h3 class="role-title">Hotel / Restaurant / Canteen</h3>
+          <p class="role-desc">Regular daily bulk orders, wholesale rate contracts, scheduled 6 AM morning kitchen delivery, and GST invoicing.</p>
+          <span class="btn btn-green btn-full">Register Restaurant →</span>
+        </a>
+
+        <!-- Category 3: Hostel / Institution -->
+        <a href="buyer-business-register.html?type=hostel" class="role-select-card">
+          <div class="role-icon-circle">🎓</div>
+          <h3 class="role-title">Hostel / Institution</h3>
+          <p class="role-desc">Daily nutritious bulk meals for colleges, student hostels, and corporate mess with dedicated quality inspection reports.</p>
+          <span class="btn btn-outline-green btn-full">Register Institution →</span>
+        </a>
+
+        <!-- Category 4: Retailer / Shop -->
+        <a href="buyer-business-register.html?type=retailer" class="role-select-card">
+          <div class="role-icon-circle">🛒</div>
+          <h3 class="role-title">Retailer / Sabzi Mandi Shop</h3>
+          <p class="role-desc">Resell premium sorted produce in your local grocery or fruit shop. Direct farmer procurement with zero middleman loss.</p>
+          <span class="btn btn-outline-green btn-full">Register Retail Shop →</span>
+        </a>
+
+        <!-- Category 5: Event / Party / Catering -->
+        <a href="buyer-event-register.html" class="role-select-card" style="grid-column: span 2;">
+          <div class="role-icon-circle">🎉</div>
+          <h3 class="role-title">Event / Wedding / Large Catering</h3>
+          <p class="role-desc">One-time large volume fresh harvest booking for weddings, festivals, banquets, and community bhandaras with on-site cold storage support.</p>
+          <span class="btn btn-purple btn-full">Book Event Bulk Harvest →</span>
+        </a>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge • Connecting India's Farms to Tables</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

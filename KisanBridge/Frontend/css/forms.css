@@ -1,0 +1,323 @@
+/* ==========================================================================
+   KISANBRIDGE - FORMS & STEP WIZARD STYLES
+   ========================================================================== */
+
+.form-wrapper {
+  background-color: var(--bg-white);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  margin-bottom: 40px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.form-header h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.form-header p {
+  color: var(--text-light);
+}
+
+/* Step Wizard Progress Bar */
+.step-wizard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 40px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step-wizard::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  right: 40px;
+  height: 4px;
+  background-color: var(--bg-slate);
+  z-index: 1;
+}
+
+.step-wizard-progress {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  height: 4px;
+  background-color: var(--primary-green);
+  z-index: 2;
+  transition: width var(--transition-smooth);
+}
+
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.step-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-white);
+  border: 3px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-light);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-xs);
+}
+
+.wizard-step.active .step-circle {
+  border-color: var(--primary-green);
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 6px var(--light-green);
+}
+
+.wizard-step.completed .step-circle {
+  border-color: var(--primary-green);
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+}
+
+.step-label {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: color var(--transition-normal);
+}
+
+.wizard-step.active .step-label,
+.wizard-step.completed .step-label {
+  color: var(--primary-green-dark);
+  font-weight: 700;
+}
+
+/* Form Steps Layout */
+.form-step-pane {
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.form-step-pane.active {
+  display: block;
+}
+
+/* Form Grid & Input Fields */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.form-group.col-span-2 {
+  grid-column: span 2;
+}
+
+.form-label {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-with-voice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  padding: 13px 16px;
+  background-color: var(--bg-white);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-dark);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 4px var(--light-green);
+}
+
+.form-control.is-invalid {
+  border-color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+.form-control.is-valid {
+  border-color: var(--success);
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.invalid-feedback {
+  display: none;
+  color: var(--danger);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.form-control.is-invalid + .invalid-feedback,
+.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+/* Voice Assistant Button (Mic) */
+.btn-voice {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-green);
+  background-color: var(--light-green);
+  color: var(--primary-green);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-normal);
+}
+
+.btn-voice:hover {
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+  transform: scale(1.05);
+}
+
+.btn-voice.listening {
+  background-color: var(--danger);
+  color: #FFFFFF;
+  border-color: var(--danger);
+  animation: pulseGlow 1.5s infinite;
+}
+
+/* Drag-and-Drop Upload Areas */
+.upload-dropzone {
+  border: 2px dashed #CBD5E1;
+  border-radius: var(--radius-lg);
+  padding: 30px 20px;
+  text-align: center;
+  background-color: var(--bg-subtle);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: var(--primary-green);
+  background-color: var(--light-green);
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  color: var(--primary-green);
+  margin-bottom: 12px;
+}
+
+.upload-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.upload-subtext {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.file-preview {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+/* Radio & Checkbox Groups */
+.radio-cards-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.radio-card-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: 600;
+}
+
+.radio-card-label:hover {
+  border-color: var(--border-green);
+  background-color: var(--bg-subtle);
+}
+
+.radio-card-input {
+  accent-color: var(--primary-green);
+  width: 18px;
+  height: 18px;
+}
+
+.radio-card-input:checked + .radio-card-content,
+.radio-card-label:has(.radio-card-input:checked) {
+  border-color: var(--primary-green);
+  background-color: var(--light-green);
+}
+
+/* Form Action Buttons (Prev / Next / Submit) */
+.form-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}

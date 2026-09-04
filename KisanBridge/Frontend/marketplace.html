@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - Direct Fresh Harvest Produce | KisanBridge</title>
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌾</span>
+        <span>Kisan<span class="accent">Bridge</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link active">Marketplace</a></li>
+        <li><a href="farmer-register.html" class="nav-link">Farmers</a></li>
+        <li><a href="buyer-category.html" class="nav-link">Buyers</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart">
+          🛒
+          <span class="nav-cart-badge">0</span>
+        </a>
+        <a href="customer-dashboard.html" class="btn btn-green btn-sm">My Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="marketplace-wrapper">
+    <div class="container">
+      
+      <!-- Marketplace Header -->
+      <div style="margin-bottom: 24px;">
+        <h1 style="font-size: 2.25rem; margin-bottom: 6px;">Fresh Farm Marketplace 🥦</h1>
+        <p style="color: var(--text-light);">Direct harvested produce from certified local farmers with full transparent price breakdown.</p>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="marketplace-toolbar">
+        <!-- Category Filter Pills -->
+        <div class="category-pills-nav" id="category-filter-group">
+          <button class="category-pill-btn active" data-category="all">All Crops (12)</button>
+          <button class="category-pill-btn" data-category="vegetables">🥦 Vegetables</button>
+          <button class="category-pill-btn" data-category="fruits">🍎 Fresh Fruits</button>
+          <button class="category-pill-btn" data-category="organic">🌿 100% Organic</button>
+          <button class="category-pill-btn" data-category="local">📍 Local (< 30km)</button>
+        </div>
+
+        <!-- Search & Sort -->
+        <div class="search-sort-group">
+          <div class="search-box-wrapper">
+            <span class="search-icon-inside">🔍</span>
+            <input type="text" id="marketplace-search-input" class="search-box-input" placeholder="Search tomatoes, onions, apples...">
+          </div>
+
+          <select id="marketplace-sort-select" class="sort-dropdown">
+            <option value="popular">⭐ Most Popular</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Grid (4 Columns) -->
+      <div class="grid grid-4" id="marketplace-products-grid">
+        <!-- Dynamically rendered via JavaScript -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <button class="page-btn active" onclick="changePage(1)">1</button>
+        <button class="page-btn" onclick="changePage(2)">2</button>
+        <button class="page-btn" onclick="changePage(3)">3</button>
+        <button class="page-btn" onclick="changePage(2)">Next →</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p style="color: #9CA3AF;">© 2026 KisanBridge • Supporting Fair Farm Trade</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    let allProducts = [];
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let sortMode = 'popular';
+
+    async function loadMarketplace() {
+      allProducts = await fetchDataset('products.json', DEFAULT_PRODUCTS);
+      renderFilteredProducts();
+
+      // Hook Filters
+      document.querySelectorAll('.category-pill-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.category-pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = btn.dataset.category;
+          renderFilteredProducts();
+        });
+      });
+
+      // Hook Search
+      const searchInput = document.getElementById('marketplace-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value.toLowerCase().trim();
+          renderFilteredProducts();
+        });
+      }
+
+      // Hook Sort
+      const sortSelect = document.getElementById('marketplace-sort-select');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+          sortMode = e.target.value;
+          renderFilteredProducts();
+        });
+      }
+    }
+
+    function renderFilteredProducts() {
+      const grid = document.getElementById('marketplace-products-grid');
+      if (!grid) return;
+
+      let filtered = allProducts.filter(p => {
+        // Category check
+        if (currentCategory === 'vegetables' && p.category !== 'vegetables') return false;
+        if (currentCategory === 'fruits' && p.category !== 'fruits') return false;
+        if (currentCategory === 'organic' && !p.is_organic) return false;
+        if (currentCategory === 'local' && !p.is_local) return false;
+
+        // Search check
+        if (searchQuery) {
+          const matchName = p.name.toLowerCase().includes(searchQuery);
+          const matchFarmer = p.farmer_name.toLowerCase().includes(searchQuery);
+          const matchDesc = p.description.toLowerCase().includes(searchQuery);
+          if (!matchName && !matchFarmer && !matchDesc) return false;
+        }
+
+        return true;
+      });
+
+      // Sort
+      if (sortMode === 'price-low') {
+        filtered.sort((a, b) => a.price_per_kg - b.price_per_kg);
+      } else if (sortMode === 'price-high') {
+        filtered.sort((a, b) => b.price_per_kg - a.price_per_kg);
+      } else if (sortMode === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-white); border-radius: var(--radius-lg);">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🔍</div>
+            <h3>No crops matched your search</h3>
+            <p style="color: var(--text-light); margin-top: 6px;">Try adjusting filters or searching for tomatoes, potatoes, or onions.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(product => `
+        <div class="product-card">
+          <div class="product-image-container">
+            <span class="product-grade-badge">${product.grade || 'Grade A'}</span>
+            ${product.is_organic ? '<span class="product-organic-badge">🌿 100% Organic</span>' : ''}
+            <a href="product-detail.html?id=${product.id}" style="text-decoration: none;">
+              <div class="product-emoji">${product.image_emoji || '🥬'}</div>
+            </a>
+          </div>
+
+          <div class="product-card-body">
+            <a href="product-detail.html?id=${product.id}">
+              <h3 class="product-name">${product.name}</h3>
+            </a>
+            <div class="product-farmer-name">
+              <span>👨🌾 Farmer: ${product.farmer_name}</span>
+            </div>
+            <div class="product-rating">
+              <span>⭐⭐⭐⭐⭐</span>
+              <span>${product.rating}</span>
+              <span class="review-count">(${product.reviews_count})</span>
+            </div>
+
+            <div class="product-price-row">
+              <div class="product-price">
+                ₹${product.price_per_kg}
+                <span class="unit">/kg</span>
+              </div>
+              <span class="product-stock">${product.quantity_available_kg} kg left</span>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-add-cart" onclick="Cart.addItem('${product.id}', 1, false)" style="flex: 1;">
+                🛒 Add to Cart
+              </button>
+              <a href="product-detail.html?id=${product.id}" class="btn btn-outline-green" style="padding: 10px 14px;" title="View Details">
+                👁️
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changePage(pageNum) {
+      document.querySelectorAll('.page-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.page-btn')).find(b => b.textContent == pageNum);
+      if (activeBtn) activeBtn.classList.add('active');
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+      showToast(`Navigated to page ${pageNum}`, "info");
+    }
+
+    document.addEventListener('DOMContentLoaded', loadMarketplace);
+  </script>
+</body>
+</html>
