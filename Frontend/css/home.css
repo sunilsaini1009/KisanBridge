@@ -354,14 +354,14 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
 }
 
-/* Inner Compact Preview List - Modern Frosted Dark Glass */
+/* 
 .feature-preview-card.card-schemes-bg .preview-items-list {
-  /* background: rgba(15, 23, 42, 0.72);
+   background: rgba(15, 23, 42, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(165, 180, 252, 0.25);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); */
-}
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); 
+} */
 
 .feature-preview-card.card-schemes-bg .preview-item-row {
   border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
@@ -379,9 +379,9 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Focus Strip */
+/* 
 .feature-preview-card.card-schemes-bg .preview-locations-strip {
-  /* color: #CBD5E1;
+   color: #CBD5E1;
   font-size: 0.80rem;
   line-height: 1.45;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -390,8 +390,8 @@
   -webkit-backdrop-filter: blur(6px);
   padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.10); */
-}
+  border: 1px solid rgba(255, 255, 255, 0.10); 
+} */
 
 .feature-preview-card.card-schemes-bg .preview-locations-strip strong {
   color: #ffffff;
@@ -482,14 +482,7 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
 }
 
-/* Inner Compact Preview List - Modern Frosted Dark Glass */
-.feature-preview-card.card-advisory-bg .preview-items-list {
-  /* background: rgba(8, 28, 16, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); */
-}
+
 
 .feature-preview-card.card-advisory-bg .preview-item-row {
   border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
@@ -603,17 +596,7 @@
   margin-bottom: 18px;
 }
 
-/* Inner Compact Preview List */
-.preview-items-list {
-  /* background: var(--bg-subtle);
-  border-radius: 14px;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  border: 1px solid var(--border-light); */
-}
+
 
 .preview-item-row {
   display: flex;
