@@ -179,7 +179,19 @@
       // Populate DOM
       document.getElementById('breadcrumb-product-name').textContent = currentProduct.name;
       document.getElementById('detail-product-name').textContent = currentProduct.name;
-      document.getElementById('detail-main-emoji').textContent = currentProduct.image_emoji || '🍅';
+      if (currentProduct.image) {
+        document.getElementById('gallery-main-view').innerHTML = `<img src="${currentProduct.image}" alt="${currentProduct.name}" class="gallery-main-img" style="width: 100%; height: 100%; object-fit: cover; display: block;" />`;
+        const firstThumb = document.querySelector('.gallery-thumbs .thumb-item:first-child');
+        if (firstThumb) {
+          firstThumb.innerHTML = `<img src="${currentProduct.image}" alt="${currentProduct.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md);" />`;
+          firstThumb.onclick = function() { switchProductImage(currentProduct.image, this); };
+        }
+      } else {
+        const mainEmojiEl = document.getElementById('detail-main-emoji');
+        if (mainEmojiEl) mainEmojiEl.textContent = currentProduct.image_emoji || '🍅';
+        const firstThumb = document.querySelector('.gallery-thumbs .thumb-item:first-child');
+        if (firstThumb) firstThumb.textContent = currentProduct.image_emoji || '🍅';
+      }
       document.getElementById('detail-farmer-name').textContent = currentProduct.farmer_name;
       document.getElementById('detail-farmer-location').textContent = currentProduct.farmer_location;
       document.getElementById('detail-harvest-date').textContent = currentProduct.harvest_date;
@@ -221,8 +233,14 @@
       PriceCalculator.updateProductDetailBreakdown(currentProduct.price_per_kg, selectedQuantity, isPreHarvest);
     }
 
+    function switchProductImage(imgSrc, thumbEl) {
+      document.getElementById('gallery-main-view').innerHTML = `<img src="${imgSrc}" alt="${currentProduct.name}" class="gallery-main-img" style="width: 100%; height: 100%; object-fit: cover; display: block;" />`;
+      document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+      thumbEl.classList.add('active');
+    }
+
     function switchEmoji(emoji, thumbEl) {
-      document.getElementById('detail-main-emoji').textContent = emoji;
+      document.getElementById('gallery-main-view').innerHTML = `<div class="large-emoji" id="detail-main-emoji">${emoji}</div>`;
       document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
       thumbEl.classList.add('active');
     }

@@ -181,11 +181,14 @@
 
       grid.innerHTML = filtered.map(product => `
         <div class="product-card">
-          <div class="product-image-container">
+          <div class="product-image-container ${product.image ? 'has-image' : ''}">
             <span class="product-grade-badge">${product.grade || 'Grade A'}</span>
             ${product.is_organic ? '<span class="product-organic-badge">🌿 100% Organic</span>' : ''}
-            <a href="product-detail.html?id=${product.id}" style="text-decoration: none;">
-              <div class="product-emoji">${product.image_emoji || '🥬'}</div>
+            <a href="product-detail.html?id=${product.id}" class="product-image-link">
+              ${product.image 
+                ? `<img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy" />` 
+                : `<div class="product-emoji">${product.image_emoji || '🥬'}</div>`
+              }
             </a>
           </div>
 
