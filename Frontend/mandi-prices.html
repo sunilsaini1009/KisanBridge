@@ -59,7 +59,13 @@
           <a href="index.html" class="btn-back-home" aria-label="Back to Homepage">
             <span>←</span> Back to Home
           </a>
-          <span class="last-updated-pill">⏱️ Daily APMC Bulletin: Today, 06:00 AM IST</span>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span class="last-updated-pill" id="mandi-last-updated-pill">⏱️ Agmarknet Bulletin: Today, 06:00 AM IST</span>
+            <button id="btn-sync-gov-mandi" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; padding: 6px 14px; border-radius: 9999px; background: #FFFFFF; border: 1.5px solid var(--primary-green, #2E7D32); color: var(--primary-green, #2E7D32); font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+              <span id="sync-spinner-icon" style="display: inline-block;">🔄</span>
+              <span id="sync-button-text">Sync Live Agmarknet</span>
+            </button>
+          </div>
         </div>
 
         <div class="page-title-wrapper">

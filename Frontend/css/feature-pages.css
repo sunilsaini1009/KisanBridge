@@ -729,3 +729,19 @@
     gap: 18px;
   }
 }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 0.8s linear infinite !important;
+}
+
+#btn-sync-gov-mandi:hover {
+  background: var(--primary-green, #2E7D32) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+  transform: translateY(-1px);
+}
