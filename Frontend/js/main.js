@@ -478,17 +478,93 @@ function saveFarmerRegistration(data) {
   return true;
 }
 
+// Recognized & Official Languages of India (8th Schedule + Associate Official & Regional)
+const SUPPORTED_LANGUAGES = [
+  { code: "en", label: "English", native: "English", voice: "en-IN" },
+  { code: "hi", label: "Hindi", native: "हिन्दी", voice: "hi-IN" },
+  { code: "pa", label: "Punjabi", native: "ਪੰਜਾਬੀ", voice: "pa-IN" },
+  { code: "bn", label: "Bengali", native: "বাংলা", voice: "bn-IN" },
+  { code: "mr", label: "Marathi", native: "मराठी", voice: "mr-IN" },
+  { code: "te", label: "Telugu", native: "తెలుగు", voice: "te-IN" },
+  { code: "ta", label: "Tamil", native: "தமிழ்", voice: "ta-IN" },
+  { code: "gu", label: "Gujarati", native: "ગુજરાતી", voice: "gu-IN" },
+  { code: "kn", label: "Kannada", native: "ಕನ್ನಡ", voice: "kn-IN" },
+  { code: "ml", label: "Malayalam", native: "മലയാളം", voice: "ml-IN" },
+  { code: "or", label: "Odia", native: "ଓଡ଼ିଆ", voice: "or-IN" },
+  { code: "as", label: "Assamese", native: "অসমীয়া", voice: "as-IN" },
+  { code: "bho", label: "Bhojpuri", native: "भोजपुरी", voice: "hi-IN" },
+  { code: "mai", label: "Maithili", native: "मैथिली", voice: "hi-IN" },
+  { code: "doi", label: "Dogri", native: "डोगरी", voice: "hi-IN" },
+  { code: "gom", label: "Konkani", native: "कोंकणी", voice: "gom-IN" },
+  { code: "ne", label: "Nepali", native: "नेपाली", voice: "ne-NP" },
+  { code: "ur", label: "Urdu", native: "اردو", voice: "ur-IN" },
+  { code: "sd", label: "Sindhi", native: "سنڌي", voice: "sd-IN" },
+  { code: "sa", label: "Sanskrit", native: "संस्कृतम्", voice: "hi-IN" },
+  { code: "sat", label: "Santali", native: "ᱥᱟᱱᱛᱟᱲᱤ", voice: "sat-IN" },
+  { code: "mni-Mtei", label: "Manipuri", native: "মৈতৈলোন্", voice: "mni-IN" },
+  { code: "ks", label: "Kashmiri", native: "कॉशुर / كٲشُر", voice: "ks-IN" }
+];
+
 // 2. getSelectedLanguage()
 function getSelectedLanguage() {
   const lang = localStorage.getItem("selectedLanguage");
-  const validCodes = ["en", "hi", "pa", "mr", "ta"];
+  const validCodes = SUPPORTED_LANGUAGES.map(l => l.code);
   return validCodes.includes(lang) ? lang : "en";
+}
+
+// Google Translate Cookie management helper
+function clearGoogleTranslateCookie() {
+  const host = window.location.hostname;
+  const isLocal = (host === 'localhost' || host === '127.0.0.1');
+
+  // Clear cookie on standard root path
+  document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+  if (!isLocal && host) {
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${host}; path=/;`;
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${host}; path=/;`;
+    document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${host}; path=/;`;
+    document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${host}; path=/;`;
+  }
+}
+
+function setGoogleTranslateCookie(lang) {
+  if (lang === 'en') {
+    clearGoogleTranslateCookie();
+    return;
+  }
+
+  const host = window.location.hostname;
+  const isLocal = (host === 'localhost' || host === '127.0.0.1');
+  const val = `/en/${lang}`;
+
+  document.cookie = `googtrans=${val}; path=/;`;
+  if (!isLocal && host) {
+    document.cookie = `googtrans=${val}; domain=${host}; path=/;`;
+    document.cookie = `googtrans=${val}; domain=.${host}; path=/;`;
+  }
+}
+
+// Trigger Google Translate dropdown element programmatically
+function triggerGoogleTranslateChange(langCode) {
+  const combo = document.querySelector('.goog-te-combo');
+  if (combo) {
+    const targetVal = (langCode === 'en') ? '' : langCode;
+    combo.value = targetVal;
+    combo.dispatchEvent(new Event('change', { bubbles: true }));
+    combo.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  }
+  return false;
 }
 
 // 3. setSelectedLanguage(languageCode)
 function setSelectedLanguage(languageCode) {
-  const validCodes = ["en", "hi", "pa", "mr", "ta"];
+  const validCodes = SUPPORTED_LANGUAGES.map(l => l.code);
   if (!validCodes.includes(languageCode)) return;
+
+  const prevLang = localStorage.getItem("selectedLanguage") || "en";
   localStorage.setItem("selectedLanguage", languageCode);
 
   // Update all language select elements on the page (desktop & mobile)
@@ -496,8 +572,44 @@ function setSelectedLanguage(languageCode) {
     select.value = languageCode;
   });
 
-  // Show small non-blocking toast
-  showLanguageToast("Language preference saved");
+  // Sync Voice Assistant language if available
+  const langObj = SUPPORTED_LANGUAGES.find(l => l.code === languageCode);
+  if (window.VoiceAssistant && typeof window.VoiceAssistant.setLanguage === 'function' && langObj) {
+    window.VoiceAssistant.setLanguage(langObj.voice);
+  }
+
+  // If user selects English from another language:
+  if (languageCode === 'en') {
+    clearGoogleTranslateCookie();
+    showLanguageToast("Language changed to English");
+    if (prevLang !== 'en') {
+      const combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        combo.value = '';
+        combo.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+    return;
+  }
+
+  // Switching to an Indian language:
+  setGoogleTranslateCookie(languageCode);
+  const langName = langObj ? `${langObj.native} (${langObj.label})` : languageCode;
+  showLanguageToast(`Language changed to ${langName}`);
+
+  const triggered = triggerGoogleTranslateChange(languageCode);
+  if (!triggered) {
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      if (triggerGoogleTranslateChange(languageCode) || attempts > 10) {
+        clearInterval(interval);
+      }
+    }, 200);
+  }
 }
 
 // Non-blocking language toast
@@ -514,21 +626,23 @@ function showLanguageToast(msg) {
   clearTimeout(toast._timer);
   toast._timer = setTimeout(() => {
     toast.classList.remove("show");
-  }, 2000);
+  }, 2500);
 }
 
 // 4. renderLanguageSelector(selectId)
 function renderLanguageSelector(selectId = "languageSelect") {
   const currentLang = getSelectedLanguage();
+  const optionsHtml = SUPPORTED_LANGUAGES.map(lang => `
+    <option value="${lang.code}" ${currentLang === lang.code ? "selected" : ""}>
+      ${lang.native} (${lang.label})
+    </option>
+  `).join("");
+
   return `
-    <div class="language-selector">
+    <div class="language-selector notranslate" translate="no" title="Choose Language / भाषा चुनें">
       <span class="language-icon" aria-hidden="true">🌐</span>
-      <select id="${selectId}" class="language-select" aria-label="Select language">
-        <option value="en" ${currentLang === "en" ? "selected" : ""}>English</option>
-        <option value="hi" ${currentLang === "hi" ? "selected" : ""}>हिंदी</option>
-        <option value="pa" ${currentLang === "pa" ? "selected" : ""}>ਪੰਜਾਬੀ</option>
-        <option value="mr" ${currentLang === "mr" ? "selected" : ""}>मराठी</option>
-        <option value="ta" ${currentLang === "ta" ? "selected" : ""}>தமிழ்</option>
+      <select id="${selectId}" class="language-select notranslate" translate="no" aria-label="Select language">
+        ${optionsHtml}
       </select>
     </div>
   `;
@@ -536,7 +650,18 @@ function renderLanguageSelector(selectId = "languageSelect") {
 
 // 5. initializeLanguageSelector()
 function initializeLanguageSelector() {
+  const currentLang = getSelectedLanguage();
   document.querySelectorAll(".language-select").forEach(select => {
+    // Populate options if not present or incomplete
+    if (select.options.length < SUPPORTED_LANGUAGES.length) {
+      select.innerHTML = SUPPORTED_LANGUAGES.map(lang => `
+        <option value="${lang.code}" ${currentLang === lang.code ? "selected" : ""}>
+          ${lang.native} (${lang.label})
+        </option>
+      `).join("");
+    }
+    select.value = currentLang;
+
     if (select._hasChangeListener) return;
     select._hasChangeListener = true;
     select.addEventListener("change", function() {
@@ -544,6 +669,62 @@ function initializeLanguageSelector() {
     });
   });
 }
+
+// --- Translation Engine Initializer (Google Translate Integration) ---
+function initTranslationEngine() {
+  // 1. Create hidden element for Google Translate
+  let elem = document.getElementById("google_translate_element");
+  if (!elem) {
+    elem = document.createElement("div");
+    elem.id = "google_translate_element";
+    elem.className = "notranslate";
+    elem.style.display = "none";
+    document.body.appendChild(elem);
+  }
+
+  // 2. Ensure cookie is synced with current preference
+  const currentLang = getSelectedLanguage();
+  if (currentLang && currentLang !== "en") {
+    setGoogleTranslateCookie(currentLang);
+  } else {
+    clearGoogleTranslateCookie();
+  }
+
+  // 3. Google Translate callback
+  window.googleTranslateElementInit = function() {
+    try {
+      const allCodes = SUPPORTED_LANGUAGES.map(l => l.code).join(',');
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: allCodes,
+        autoDisplay: false
+      }, 'google_translate_element');
+
+      // Check if translation is needed on page startup
+      setTimeout(() => {
+        const lang = getSelectedLanguage();
+        if (lang && lang !== 'en') {
+          triggerGoogleTranslateChange(lang);
+        }
+      }, 400);
+    } catch (e) {
+      console.warn("Translation engine init notice:", e);
+    }
+  };
+
+  // 4. Inject Google Translate script if not loaded
+  if (!document.getElementById("google-translate-script")) {
+    const script = document.createElement("script");
+    script.id = "google-translate-script";
+    script.type = "text/javascript";
+    script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.head.appendChild(script);
+  }
+}
+
+
+
 
 // 6. renderNavbar()
 function renderNavbar() {
@@ -808,82 +989,183 @@ function initNavbar() {
   }
 }
 
-// --- Data Fetcher with Fallback ---
-async function fetchDataset(filename, defaultFallback) {
-  try {
-    const response = await fetch(`./data/${filename}`);
-    if (!response.ok) throw new Error("Fetch failed");
-    return await response.json();
-  } catch (err) {
-    // Graceful fallback for local file:// protocol or standalone deployment
-    return defaultFallback;
+// ==========================================================================
+// KISANBRIDGE 0ms INSTANT DATA ENGINE (STALE-WHILE-REVALIDATE + PARALLEL BATCH)
+// ==========================================================================
+
+const InstantDataEngine = {
+  memoryCache: new Map(),
+
+  // Get data immediately (0ms) from RAM -> LocalStorage -> Embedded Fallback
+  getInstant(filename, defaultFallback) {
+    const cacheKey = `kisan_cache_${filename}`;
+
+    // 1. Check RAM memory cache (Fastest: ~0.01ms)
+    if (this.memoryCache.has(cacheKey)) {
+      return this.memoryCache.get(cacheKey);
+    }
+
+    // 2. Check persistent LocalStorage cache (~0.5ms)
+    try {
+      const stored = localStorage.getItem(cacheKey);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.data) {
+          this.memoryCache.set(cacheKey, parsed.data);
+          return parsed.data;
+        }
+      }
+    } catch (e) {
+      console.warn("Cache read error:", e);
+    }
+
+    // 3. Instant embedded fallback (Guaranteed 0ms render)
+    if (defaultFallback) {
+      this.memoryCache.set(cacheKey, defaultFallback);
+      return defaultFallback;
+    }
+
+    return null;
+  },
+
+  // Save fresh data to RAM + LocalStorage
+  saveCache(filename, data) {
+    const cacheKey = `kisan_cache_${filename}`;
+    this.memoryCache.set(cacheKey, data);
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        timestamp: Date.now(),
+        data: data
+      }));
+    } catch (e) {
+      // Ignore private mode or storage limit errors
+    }
+  },
+
+  // Non-blocking background fetch with timeout abort (never blocks UI)
+  async revalidate(filename, defaultFallback, onUpdateCallback = null) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+    try {
+      const response = await fetch(`./data/${filename}`, {
+        signal: controller.signal,
+        headers: { 'Cache-Control': 'max-age=60' }
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const freshData = await response.json();
+      
+      this.saveCache(filename, freshData);
+
+      if (typeof onUpdateCallback === 'function') {
+        onUpdateCallback(freshData);
+      }
+      return freshData;
+    } catch (err) {
+      clearTimeout(timeoutId);
+      return this.getInstant(filename, defaultFallback);
+    }
+  },
+
+  // Parallel Batch Revalidator: runs all fetches in parallel in 1 network tick
+  revalidateAll(configs) {
+    return Promise.allSettled(
+      configs.map(({ filename, fallback, callback }) => 
+        this.revalidate(filename, fallback, callback)
+      )
+    );
   }
+};
+
+// Drop-in replacement for fetchDataset: returns in 0ms if cached, revalidates silently in background
+async function fetchDataset(filename, defaultFallback) {
+  const cached = InstantDataEngine.getInstant(filename, defaultFallback);
+  // Revalidate in background without awaiting
+  InstantDataEngine.revalidate(filename, defaultFallback).catch(() => {});
+  return cached;
 }
 
-// --- Initialize Homepage Dynamic Sections if on index.html ---
-async function initHomepage() {
-  // 1. Mandi Prices
+// --- Dynamic Section Renderers (Synchronous & Smooth) ---
+function renderMandiGrid(mandiData) {
   const mandiContainer = document.getElementById('mandi-prices-grid');
-  if (mandiContainer) {
-    const mandiData = await fetchDataset('mandiPrices.json', DEFAULT_MANDI_PRICES);
-    mandiContainer.innerHTML = mandiData.slice(0, 4).map(item => `
-      <div class="mandi-price-card">
-        <div class="mandi-card-header">
-          <div class="mandi-crop-icon">${item.icon || '🌾'}</div>
-          <span class="badge ${item.trend === 'up' ? 'badge-amber' : 'badge-green'}">
-            ${item.trend === 'up' ? '▲ Up' : (item.trend === 'down' ? '▼ Best Value' : '● Stable')}
-          </span>
-        </div>
-        <h4>${item.crop}</h4>
-        <div class="mandi-price-display">
-          <span class="mandi-price-value">₹${item.price_per_kg}</span>
-          <span class="mandi-price-unit"> / kg</span>
-        </div>
-        <div class="mandi-location-tag">
-          📍 ${item.mandi_location}
-        </div>
-      </div>
-    `).join('');
-  }
+  if (!mandiContainer || !Array.isArray(mandiData)) return;
 
-  // 2. Government Schemes
+  mandiContainer.innerHTML = mandiData.slice(0, 4).map(item => `
+    <div class="mandi-price-card">
+      <div class="mandi-card-header">
+        <div class="mandi-crop-icon">${item.icon || '🌾'}</div>
+        <span class="badge ${item.trend === 'up' ? 'badge-amber' : 'badge-green'}">
+          ${item.trend === 'up' ? '▲ Up' : (item.trend === 'down' ? '▼ Best Value' : '● Stable')}
+        </span>
+      </div>
+      <h4>${item.crop}</h4>
+      <div class="mandi-price-display">
+        <span class="mandi-price-value">₹${item.price_per_kg}</span>
+        <span class="mandi-price-unit"> / kg</span>
+      </div>
+      <div class="mandi-location-tag">
+        📍 ${item.mandi_location}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSchemesGrid(schemesData) {
   const schemesContainer = document.getElementById('schemes-grid');
-  if (schemesContainer) {
-    const schemesData = await fetchDataset('schemes.json', DEFAULT_SCHEMES);
-    schemesContainer.innerHTML = schemesData.map(scheme => `
-      <div class="scheme-card">
-        <div class="scheme-header">
-          <div class="scheme-icon">${scheme.icon_emoji || '🏛️'}</div>
-          <div>
-            <h3 class="scheme-title">${scheme.name}</h3>
-            <div class="scheme-benefit">${scheme.benefit}</div>
-          </div>
-        </div>
-        <p class="scheme-eligibility">${scheme.description || scheme.eligibility}</p>
-        <a href="${scheme.apply_link}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-green btn-sm" style="margin-top: auto; align-self: flex-start;">
-          Apply Now ↗
-        </a>
-      </div>
-    `).join('');
-  }
+  if (!schemesContainer || !Array.isArray(schemesData)) return;
 
-  // 3. Seasonal Crops for September
-  const seasonalContainer = document.getElementById('seasonal-crops-grid');
-  if (seasonalContainer) {
-    const seasonalData = await fetchDataset('seasonalCrops.json', DEFAULT_SEASONAL_CROPS);
-    seasonalContainer.innerHTML = seasonalData.slice(0, 4).map(crop => `
-      <div class="seasonal-crop-card">
-        <span class="badge badge-green seasonal-demand-badge">${crop.demand} Demand</span>
-        <div class="seasonal-crop-icon">${crop.image_emoji || '🌱'}</div>
-        <h3>${crop.crop}</h3>
-        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 4px;">Harvest cycle: ${crop.growing_time_days}</p>
-        <div class="seasonal-meta-row">
-          <span>Avg Market Rate:</span>
-          <strong class="text-green">₹${crop.avg_price_per_kg}/kg</strong>
+  schemesContainer.innerHTML = schemesData.map(scheme => `
+    <div class="scheme-card">
+      <div class="scheme-header">
+        <div class="scheme-icon">${scheme.icon_emoji || '🏛️'}</div>
+        <div>
+          <h3 class="scheme-title">${scheme.name}</h3>
+          <div class="scheme-benefit">${scheme.benefit}</div>
         </div>
       </div>
-    `).join('');
-  }
+      <p class="scheme-eligibility">${scheme.description || scheme.eligibility}</p>
+      <a href="${scheme.apply_link}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-green btn-sm" style="margin-top: auto; align-self: flex-start;">
+        Apply Now ↗
+      </a>
+    </div>
+  `).join('');
+}
+
+function renderSeasonalGrid(seasonalData) {
+  const seasonalContainer = document.getElementById('seasonal-crops-grid');
+  if (!seasonalContainer || !Array.isArray(seasonalData)) return;
+
+  seasonalContainer.innerHTML = seasonalData.slice(0, 4).map(crop => `
+    <div class="seasonal-crop-card">
+      <span class="badge badge-green seasonal-demand-badge">${crop.demand} Demand</span>
+      <div class="seasonal-crop-icon">${crop.image_emoji || '🌱'}</div>
+      <h3>${crop.crop}</h3>
+      <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 4px;">Harvest cycle: ${crop.growing_time_days}</p>
+      <div class="seasonal-meta-row">
+        <span>Avg Market Rate:</span>
+        <strong class="text-green">₹${crop.avg_price_per_kg}/kg</strong>
+      </div>
+    </div>
+  `).join('');
+}
+
+// --- Initialize Homepage Dynamic Sections with 0ms First Paint ---
+function initHomepage() {
+  // 1. INSTANT FIRST PAINT (0ms): render immediately from instant RAM/LocalStorage/Embedded store
+  renderMandiGrid(InstantDataEngine.getInstant('mandiPrices.json', DEFAULT_MANDI_PRICES));
+  renderSchemesGrid(InstantDataEngine.getInstant('schemes.json', DEFAULT_SCHEMES));
+  renderSeasonalGrid(InstantDataEngine.getInstant('seasonalCrops.json', DEFAULT_SEASONAL_CROPS));
+
+  // 2. SINGLE PARALLEL BACKGROUND BATCH (Non-blocking):
+  // Revalidates all sections simultaneously and pre-warms marketplace data in background!
+  InstantDataEngine.revalidateAll([
+    { filename: 'mandiPrices.json', fallback: DEFAULT_MANDI_PRICES, callback: renderMandiGrid },
+    { filename: 'schemes.json', fallback: DEFAULT_SCHEMES, callback: renderSchemesGrid },
+    { filename: 'seasonalCrops.json', fallback: DEFAULT_SEASONAL_CROPS, callback: renderSeasonalGrid },
+    { filename: 'products.json', fallback: DEFAULT_PRODUCTS } // Pre-warms marketplace for 0ms transition!
+  ]);
 }
 
 // Global App Initialization
@@ -895,5 +1177,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initMobileNavigation();
   initHomepage();
+  initTranslationEngine();
   window.addEventListener('hashchange', setActiveNavLink);
 });
+
